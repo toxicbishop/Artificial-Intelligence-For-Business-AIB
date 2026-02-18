@@ -44,7 +44,7 @@ To run the programs in this repository, ensure you have the following installed:
 2. Navigate to the desired program folder:
 
    ```bash
-   cd AI&B/01
+   cd AI-For-B/01
    ```
 
 3. Run the script:
