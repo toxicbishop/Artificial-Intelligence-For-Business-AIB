@@ -1,4 +1,4 @@
-# Artificial Intelligence for Business (BCB601) 🚀
+# Artificial Intelligence for Business (BCB601)
 
 Welcome to the official repository for the **Artificial Intelligence for Business** course. This repository is specifically curated for students of the **6th Semester** pursuing their studies in this domain.
 
