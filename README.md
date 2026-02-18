@@ -19,7 +19,7 @@ Welcome to the official repository for the **Artificial Intelligence for Busines
 
 The repository is organized by practical sessions/programs:
 
-- **01 - 10**: Each directory contains Python implementations of core concepts discussed in the syllabus.
+- **01 - 08**: Each directory contains Python implementations of core concepts discussed in the syllabus.
 - **Scripts**: Focused on practical applications of AI in business scenarios.
 
 ---
