@@ -81,7 +81,7 @@ email = generate_personalized_email(customer_name, interest, business_name)
 print("\n Generated Personalized Email:\n") 
 print(email)
 
-"""#Output:
+"""Output:
 ====== AI Driven Marketing System ======
 
 Enter Business Name: Google
