@@ -24,6 +24,16 @@ The repository is organized by practical sessions/programs:
 
 ---
 
+## 📝 Programs
+
+| Program | Title | Description |
+| :---: | :--- | :--- |
+| **01** | Email Completion using GPT-2 | Uses the pre-trained GPT-2 model to auto-complete email drafts given a prompt. |
+| **02** | Personalized Email Generation (GPT-2 Medium) | Generates personalized emails based on user preferences and interests using GPT-2 Medium. |
+| **03** | AI-Driven Marketing System | Develops data-driven website content, optimizes it for SEO using TF-IDF, and generates personalized marketing emails for customers. |
+
+---
+
 ## 🛠️ Getting Started
 
 ### Prerequisites
