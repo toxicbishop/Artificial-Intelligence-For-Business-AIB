@@ -1,3 +1,5 @@
+"""Marketer to Machine: Develop a ML model for Smart email Compose. Smart email compose finishes
+sentences for you by predicting what word or words user will type next."""
 # Import necessary libraries 
 from transformers import GPT2LMHeadModel, GPT2Tokenizer 
 import torch 

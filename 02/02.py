@@ -1,3 +1,5 @@
+"""Marketer to Machine: Develop level-2 Marketer-to-Machine (M2M) Scale of intelligent automation to
+personalize business email based on user preferences and interests"""
 from transformers import pipeline
 
 # Load GPT-2 Medium
