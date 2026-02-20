@@ -47,12 +47,12 @@ if __name__ == "__main__":
     print("\nGenerated Email:\n")
     print(generated_email)
 
-    #Output
-    #Generated Email:
-    #Subject: Exciting Insights on product launch!
-    #Dear John,
-    #I hope you're having a great day! I recently came across some interesting trends in product launch that align with your interest in Technology. For example, did you know that product launch is evolving rapidly with new developments every day?
-    #I'd love to hear your thoughts on this. Have you come across any recent articles or insights?
-    #Looking forward to your response!
-    #Best regards,
-    #John
+    """Output:
+    Generated Email:
+    Subject: Exciting Insights on product launch!
+    Dear John,
+    I hope you're having a great day! I recently came across some interesting trends in product launch that align with your interest in Technology. For example, did you know that product launch is evolving rapidly with new developments every day?
+    I'd love to hear your thoughts on this. Have you come across any recent articles or insights?
+    Looking forward to your response!
+    Best regards,
+    John"""

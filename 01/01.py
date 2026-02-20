@@ -17,5 +17,5 @@ def complete_email(prompt, max_length=50):  # Function to complete the email
 prompt = "Dear Team, I would like to" 
 completed_email = complete_email(prompt, max_length=100) 
 print("Completed Email: ", completed_email)
-#Output
-#Completed Email:  Dear Team, I would like to express congratulations on your success in the last few weeks here at BGG - your #feedback has been amazing and I thank all of our community members for their time and commitment to our work. As always we #respect your continued
+"""Output:
+Completed Email:  Dear Team, I would like to express congratulations on your success in the last few weeks here at BGG - your #feedback has been amazing and I thank all of our community members for their time and commitment to our work. As always we #respect your continued"""
