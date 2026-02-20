@@ -1,5 +1,5 @@
-# AI and Marketing: Develop data-driven content for a given business organization (Web site). 
-# Optimize Website content for search engines. Send emails to customers with personalized content/activity. 
+"""AI and Marketing: Develop data-driven content for a given business organization (Web site). 
+Optimize Website content for search engines. Send emails to customers with personalized content/activity."""
 import asyncio.exceptions
 import asyncio.exceptions
 from sklearn.feature_extraction.text import TfidfVectorizer 
@@ -81,58 +81,58 @@ email = generate_personalized_email(customer_name, interest, business_name)
 print("\n Generated Personalized Email:\n") 
 print(email)
 
-#Output:
-#====== AI Driven Marketing System ======
+"""#Output:
+====== AI Driven Marketing System ======
 
-#Enter Business Name: Google
-#Enter Industry Type: Technology
-#Enter Main Services (comma separated): Search, YouTube, Android, Chrome, and Gmail 
+Enter Business Name: Google
+Enter Industry Type: Technology
+Enter Main Services (comma separated): Search, YouTube, Android, Chrome, and Gmail 
 
-#Generated Website Content:
+Generated Website Content:
 
  
-#Welcome to Google! 
+Welcome to Google! 
  
-#We are a leading Technology company dedicated to delivering high-quality services. 
-#Our core services include Search, YouTube, Android, Chrome, and Gmail. 
+We are a leading Technology company dedicated to delivering high-quality services. 
+Our core services include Search, YouTube, Android, Chrome, and Gmail. 
  
-#We help businesses grow through innovative strategies, 
-#customer-focused solutions, and data-driven marketing techniques.
+We help businesses grow through innovative strategies, 
+customer-focused solutions, and data-driven marketing techniques.
 
- #   Contact us today to boost your brand visibility and achieve business success.
-
-
-# Top SEO Keywords:
-
-#1. services
-#2. achieve
-#3. achieve business
-#4. android
-#5. android chrome
-#6. boost
-#7. boost brand
-#8. brand
-#9. brand visibility
-#10. business
-
-#====== Personalized Email Section ======
-
-#Enter Customer Name: Pranav
-#Enter Customer Interest: Search & Information
-
-# Generated Personalized Email:
+Contact us today to boost your brand visibility and achieve business success.
 
 
- #   Subject: Special Offer Just for You, Pranav!
+Top SEO Keywords:
 
- #   Dear Pranav,
+1. services
+2. achieve
+3. achieve business
+4. android
+5. android chrome
+6. boost
+7. boost brand
+8. brand
+9. brand visibility
+10. business
 
-#    We noticed your interest in Search & Information.
-#    At Google, we provide customized solutions to help you achieve your goals.
+====== Personalized Email Section ======
 
- #   As a valued customer, we are offering exclusive benefits tailored to your interests.
+Enter Customer Name: Pranav
+Enter Customer Interest: Search & Information
 
-  #  Visit our website to explore more exciting opportunities.
+Generated Personalized Email:
 
- #   Best Regards,
- #   Google Team
+
+Subject: Special Offer Just for You, Pranav!
+
+Dear Pranav,
+
+We noticed your interest in Search & Information.
+At Google, we provide customized solutions to help you achieve your goals.
+
+As a valued customer, we are offering exclusive benefits tailored to your interests.
+
+Visit our website to explore more exciting opportunities.
+
+Best Regards,
+Google Team """
