@@ -79,5 +79,3 @@ To run the programs in this repository, ensure you have the following installed:
 This repository is for educational purposes. Students are encouraged to explore, suggest improvements, and use these resources for their academic growth.
 
 ---
-
-**Happy Learning!** 👨‍🎓👩‍🎓
