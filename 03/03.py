@@ -1,3 +1,18 @@
+"""
+=============================================================================
+  AI FOR BUSINESS — Week 03
+  Topic : AI & Marketing — Data-Driven Website Content & SEO Optimisation
+  File  : 03.py
+
+  Approach : AI-Driven Marketing System
+    1. Generate structured website content for a given business
+    2. Run TF-IDF SEO analysis to surface top keywords (ngram 1-2)
+    3. Produce personalised promotional emails per customer interest
+
+  Dependencies : scikit-learn  (pip install scikit-learn)
+=============================================================================
+"""
+
 """AI and Marketing: Develop data-driven content for a given business organization (Web site). 
 Optimize Website content for search engines. Send emails to customers with personalized content/activity."""
 import asyncio.exceptions

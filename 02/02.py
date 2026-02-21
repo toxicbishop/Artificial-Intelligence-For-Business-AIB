@@ -1,3 +1,18 @@
+"""
+=============================================================================
+  AI FOR BUSINESS — Week 02
+  Topic : Marketer to Machine (M2M) — Personalized Business Email Generator
+  File  : 02.py
+
+  Approach : GPT-2 Medium Text Generation Pipeline
+    1. Load GPT-2 Medium via HuggingFace text-generation pipeline
+    2. Map each recipient to a stored interest / preference category
+    3. Build a structured email prompt and generate personalised content
+
+  Dependencies : transformers  (pip install transformers)
+=============================================================================
+"""
+
 """Marketer to Machine: Develop level-2 Marketer-to-Machine (M2M) Scale of intelligent automation to
 personalize business email based on user preferences and interests"""
 from transformers import pipeline

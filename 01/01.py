@@ -1,3 +1,18 @@
+"""
+=============================================================================
+  AI FOR BUSINESS — Week 01
+  Topic : Marketer to Machine — Smart Email Compose
+  File  : 01.py
+
+  Approach : GPT-2 Language Model for Email Completion
+    1. Load pre-trained GPT-2 model and tokenizer (HuggingFace Transformers)
+    2. Encode an email prompt into token IDs
+    3. Generate the next words / sentences using sampling
+
+  Dependencies : transformers, torch  (pip install transformers torch)
+=============================================================================
+"""
+
 """Marketer to Machine: Develop a ML model for Smart email Compose. Smart email compose finishes
 sentences for you by predicting what word or words user will type next."""
 # Import necessary libraries 
