@@ -41,7 +41,14 @@ The repository is organized by practical sessions/programs:
 To run the programs in this repository, ensure you have the following installed:
 
 - [Python 3.x](https://www.python.org/)
-- Necessary AI/ML libraries (Pandas, NumPy, Scikit-learn, etc.)
+
+It is highly recommended to use a virtual environment. You can set one up and install the necessary libraries (NumPy, Scikit-learn, Transformers, PyTorch, etc.) using the provided `requirements.txt`:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
 
 ### Installation
 
