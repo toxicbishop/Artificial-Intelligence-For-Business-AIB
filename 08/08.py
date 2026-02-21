@@ -1,3 +1,18 @@
+"""
+=============================================================================
+  AI FOR BUSINESS — Week 08
+  Topic : Content Marketing and AI
+  File  : 08.py
+
+  Approach : intelligent product searches
+    1. Content Marketing using AI (String matching).
+    2. Text-Based E-Commerce Product Search.
+    3. Customer Service – Voice Search.
+    4. Customer Service – Visual Search.
+
+  Dependencies : SpeechRecognition, Pillow, pyaudio
+=============================================================================
+"""
 # Part 1: Content Marketing using AI
 print("Part 1: Content Marketing using AI: -")
 content_list = [

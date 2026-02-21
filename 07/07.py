@@ -1,5 +1,17 @@
-# Program 7: Public Relations, Communications, and AI
-# AI-driven Presentation Creation using python-pptx
+"""
+=============================================================================
+  AI FOR BUSINESS — Week 07
+  Topic : Public relations, communications, and AI
+  File  : 07.py
+
+  Approach : AI-driven Presentation Creation
+    1. Create the title slide.
+    2. Add a content slide.
+    3. Add an image slide (branding).
+
+  Dependencies : python-pptx  (pip install python-pptx)
+=============================================================================
+"""
 
 from pptx import Presentation
 from pptx.util import Inches
