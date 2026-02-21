@@ -1,0 +1,76 @@
+ 
+Artificial Intelligence for Business Lab
+Viva Questions
+Marketer to Machine: Smart Email Compose
+1. What is Smart Email Compose, and how does it work?
+Answer: Smart Email Compose predicts and suggests the next words or phrases while typing an email. It uses predictive text models, often trained on historical email datasets, to enhance writing speed and consistency.
+2. What are the main components of a predictive model for email composition?
+Answer: The components include text preprocessing, a language model (e.g., LSTM, GPT), and a user interface to display predictions.
+3. What types of datasets are used for building email composition models?
+Answer: Datasets include email text corpora, chat logs, and datasets specifically designed for language modeling tasks, such as Enron Email Dataset.
+4. How does context impact word prediction?
+Answer: Context ensures the model generates semantically and syntactically accurate predictions based on preceding words.
+Marketer to Machine: Level-2 Intelligent Automation for Personalized Emails
+5. How does this program extend Smart Email Compose?
+Answer: It personalizes email content based on user preferences, using insights such as interaction history, demographics, and behavior.
+6. What algorithms can be used for personalization?
+Answer: Algorithms like collaborative filtering, content-based filtering, and hybrid recommendation models.
+7. How do you ensure the emails are personalized without compromising privacy?
+Answer: By anonymizing user data, obtaining consent, and following regulations like GDPR.
+8. What evaluation metrics are used for personalized email systems?
+Answer: Metrics include click-through rate (CTR), open rate, and user engagement scores.
+AI and Marketing: Data-Driven Content and SEO Optimization
+9. What is the role of AI in creating data-driven content?
+Answer: AI analyzes audience preferences, predicts trends, and generates optimized content tailored to specific user demographics.
+10. How does SEO optimization improve website performance?
+Answer: SEO increases a website's visibility in search engines, driving organic traffic and improving ranking through content optimization.
+11. What tools are commonly used for SEO?
+Answer: Tools like Google Analytics, SEMrush, and Ahrefs are used for keyword research, traffic analysis, and backlink tracking.
+12. How do you integrate email campaigns with SEO efforts?
+Answer: By using email insights to identify user needs, aligning email content with high-performing keywords, and driving traffic to optimized landing pages.
+ 
+AI and Marketing: Content Recommendation System
+13. What is a recommendation system, and how does it work?
+Answer: A recommendation system suggests content or products to users based on their preferences or behavior. It uses algorithms like collaborative filtering, content-based filtering, or hybrid approaches.
+14. What datasets are required to build a recommendation system?
+Answer: User-item interaction logs, content metadata, and demographic data.
+15. How do you handle the cold-start problem in recommendation systems?
+Answer: By incorporating demographic information or using content-based filtering for new users or items.
+16. What metrics evaluate the performance of a recommendation system?
+Answer: Metrics like precision, recall, mean average precision (MAP), and diversity.
+AI and Advertisement: Programmatic Advertising
+17. What is programmatic advertising, and how is it implemented?
+Answer: Programmatic advertising automates the buying and selling of ad spaces using real-time data and bidding algorithms.
+18. How does AI enhance programmatic advertising?
+Answer: AI analyzes user data to optimize ad placement, target audiences, and improve bidding strategies.
+19. What are the ethical concerns in using cookies for advertising?
+Answer: Concerns include user consent, data privacy, and the potential misuse of sensitive information.
+20. How do you measure the success of programmatic ad campaigns?
+Answer: Using metrics like cost per click (CPC), cost per acquisition (CPA), and return on ad spend (ROAS).
+AI and Analytics: Create Analytics Dashboard
+21. What is the purpose of an analytics dashboard?
+Answer: To provide visual insights into data, enabling better decision-making by summarizing key metrics and trends.
+22. How do you integrate Google Analytics into a dashboard?
+Answer: By using APIs provided by Google Analytics to fetch and visualize data.
+23. What types of AI tools can be used for predictive analytics?
+Answer: Tools like TensorFlow, scikit-learn, and Azure Machine Learning.
+24. How do you evaluate the predictions made by the dashboard?
+Answer: By comparing predictions with actual outcomes using accuracy, precision, and recall metrics.
+Public Relations, Communications, and AI
+25. What role does AI play in creating presentations?
+Answer: AI suggests templates, formats, and content ideas, automating design tasks to enhance productivity.
+26. What are AI-driven branding tools?
+Answer: Tools like Canva, Adobe Spark, and Brandmark.io help create logos, brand guidelines, and marketing collateral.
+27. How do you ensure consistency in AI-designed branding?
+Answer: By using predefined brand elements like colors, fonts, and logos across all materials.
+28. How do smart templates benefit presentations?
+Answer: They save time, maintain uniformity, and enhance the visual appeal of slides.
+Content Marketing and AI: Intelligent Product Search
+29. How does AI improve content development for e-commerce?
+Answer: AI generates optimized product descriptions, analyzes customer reviews for insights, and personalizes content for users.
+30. What techniques enable intelligent product search across text, voice, and visuals?
+Answer: Techniques like NLP for text queries, speech recognition for voice input, and computer vision for image-based searches.
+31. What challenges exist in implementing multi-modal search systems?
+Answer: Challenges include integrating different data modalities, ensuring accuracy, and handling ambiguous queries.
+32. How does AI personalize the shopping experience?
+Answer: By analyzing user behavior and preferences to recommend products, adjust search results, and create tailored promotions.
