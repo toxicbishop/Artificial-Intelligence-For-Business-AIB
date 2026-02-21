@@ -86,7 +86,7 @@ print(email)
 
 Enter Business Name: Google
 Enter Industry Type: Technology
-Enter Main Services (comma separated): Search, YouTube, Android, Chrome, and Gmail 
+Enter Main Services (comma separated): Search, YouTube, Android, Chrome, Gmail 
 
 Generated Website Content:
 
