@@ -94,7 +94,7 @@ Generated Website Content:
 Welcome to Google! 
  
 We are a leading Technology company dedicated to delivering high-quality services. 
-Our core services include Search, YouTube, Android, Chrome, and Gmail. 
+Our core services include Search, YouTube, Android, Chrome, Gmail. 
  
 We help businesses grow through innovative strategies, 
 customer-focused solutions, and data-driven marketing techniques.
