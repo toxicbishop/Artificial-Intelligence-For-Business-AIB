@@ -15,21 +15,17 @@
 
 """Marketer to Machine: Develop level-2 Marketer-to-Machine (M2M) Scale of intelligent automation to
 personalize business email based on user preferences and interests"""
+
 from transformers import pipeline
-
-# Load GPT-2 Medium
 text_generator = pipeline("text-generation", model="gpt2-medium")
-
 user_preferences = {
     "John": "Technology",
     "Alice": "Health",
     "Emma": "Finance",
     "Michael": "Education"
 }
-
 def generate_personalized_email(user, purpose, your_name):
-    interest = user_preferences.get(user, "Technology")  # Default to Technology
-
+    interest = user_preferences.get(user, "Technology")
     prompt = (
         f"Subject: Exciting Insights on {purpose}!\n\n"
         f"Dear {user},\n\n"
@@ -40,27 +36,20 @@ def generate_personalized_email(user, purpose, your_name):
         f"Looking forward to your response!\n\n"
         f"Best regards,\n{your_name}"
     )
-
     generated_email = text_generator(
         prompt,
         max_length=200,
-        num_return_sequences=1,
         temperature=0.7,
         top_k=40,
         top_p=0.9
     )[0]['generated_text']
-
     return generated_email
-
-if __name__ == "__main__":
-    # --- Example usage ---
-    user = input("Enter the recipient's name: ")
-    purpose = input("Enter the purpose of the email (e.g., product launch, thank you): ")
-    your_name = input("Enter your Name: ")
-
-    generated_email = generate_personalized_email(user, purpose, your_name)
-    print("\nGenerated Email:\n")
-    print(generated_email)
+user = input("Enter the recipient's name: ")
+purpose = input("Enter the purpose of the email (e.g., product launch, thank you): ")
+your_name = input("Enter your Name: ")
+generated_email = generate_personalized_email(user, purpose, your_name)
+print("\nGenerated Email:\n")
+print(generated_email)
 
     """Output:
     Generated Email:
