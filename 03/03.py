@@ -104,17 +104,17 @@ print(email)
 
 Enter Business Name: Google
 Enter Industry Type: Technology
-Enter Main Services (comma separated): Search, YouTube, Android, Chrome, Gmail 
+Enter Main Services (comma separated): Search,Youtube,Android, Chrome, Gmail
 
 Generated Website Content:
 
- 
-Welcome to Google! 
- 
-We are a leading Technology company dedicated to delivering high-quality services. 
-Our core services include Search, YouTube, Android, Chrome, Gmail. 
- 
-We help businesses grow through innovative strategies, 
+
+Welcome to Google!
+
+We are a leading Technology company dedicated to delivering high-quality services.
+Our core services include Search,Youtube,Android, Chrome, Gmail.
+
+We help businesses grow through innovative strategies,
 customer-focused solutions, and data-driven marketing techniques.
 
 Contact us today to boost your brand visibility and achieve business success.
@@ -124,19 +124,19 @@ Top SEO Keywords:
 
 1. services
 2. achieve
-3. achieve business
-4. android
-5. android chrome
-6. boost
-7. boost brand
-8. brand
-9. brand visibility
-10. business
+3. help businesses
+4. high
+5. high quality
+6. include
+7. include search
+8. innovative
+9. innovative strategies
+10. leading
 
 ====== Personalized Email Section ======
 
 Enter Customer Name: Pranav
-Enter Customer Interest: Search & Information
+Enter Customer Interest: Search, information
 
 Generated Personalized Email:
 
@@ -145,7 +145,7 @@ Subject: Special Offer Just for You, Pranav!
 
 Dear Pranav,
 
-We noticed your interest in Search & Information.
+We noticed your interest in Search, information.
 At Google, we provide customized solutions to help you achieve your goals.
 
 As a valued customer, we are offering exclusive benefits tailored to your interests.
