@@ -24,14 +24,14 @@ tokenizer = GPT2Tokenizer.from_pretrained(model_name)
 model = GPT2LMHeadModel.from_pretrained(model_name)
 # Function to complete the email
 def complete_email(prompt, max_length=50):
-# Encode the input prompt into tokens
-input_ids = tokenizer.encode(prompt, return_tensors='pt')
-# Generate text with the model, using the input prompt
-output = model.generate(input_ids, max_length=max_length,
-num_return_sequences=1, do_sample=True)
-# Decode the generated text back into readable words
-completed_text = tokenizer.decode(output[0], skip_special_tokens=True)
-return completed_text
+    # Encode the input prompt into tokens
+    input_ids = tokenizer.encode(prompt, return_tensors='pt')
+    # Generate text with the model, using the input prompt
+    output = model.generate(input_ids, max_length=max_length,
+    num_return_sequences=1, do_sample=True)
+    # Decode the generated text back into readable words
+    completed_text = tokenizer.decode(output[0], skip_special_tokens=True)
+    return completed_text
 # Example usage
 prompt = "Dear Team, I would like to"
 completed_email = complete_email(prompt)
