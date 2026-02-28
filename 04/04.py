@@ -13,46 +13,84 @@
 =============================================================================
 """
 
-import numpy as np
-from sklearn.metrics.pairwise import cosine_similarity
- 
-def recommend_content(user_id, user_data, content_data):
-   """
-   Recommends top 3 content items for a given user based on cosine similarity.
- 
-   Args:
-   user_id (str): The ID of the user.
-   user_data (dict): A dictionary containing user embeddings.
-   content_data (numpy.ndarray): A matrix of content embeddings.
- 
-   Returns:
-   list: A list of indices for the top 3 recommended content items.
-   """
-   if user_id not in user_data:
-       return "User not found in the dataset."
-   
-   user_vector = user_data[user_id]
-   similarities = cosine_similarity([user_vector], content_data)
-   # Get indices of the top 3 recommended content items
-   recommended_indices = np.argsort(similarities[0])[-3:][::-1]
-   return recommended_indices
- 
-# Sample data
-user_data = {
-   "John": [0.8, 0.2],
-   "Alice": [0.1, 0.9]
+from sklearn.feature_extraction.text import TfidfVectorizer 
+from sklearn.metrics.pairwise import cosine_similarity 
+website_data = { 
+    "SEO Optimization": "Improve your website ranking with advanced SEO techniques and keyword strategies.", 
+    "Social Media Campaigns": "Boost brand awareness through targeted social media marketing campaigns.", 
+    "Email Marketing": "Increase customer engagement using personalized email marketing strategies.", 
+    "Content Marketing": "Attract and retain customers with high-quality content marketing solutions.", 
+    "Web Analytics": "Track website performance and customer behavior using advanced analytics tools.", 
+    "Online Advertising": "Run paid advertising campaigns to increase website traffic and conversions." 
 }
-content_data = np.array([[0.9, 0.1], [0.2, 0.8], [0.7, 0.3]])
+
+def recommend_content(user_interest): 
+    titles = list(website_data.keys()) 
+    documents = list(website_data.values()) 
  
-# Interactive input
-user_id = input("Enter the user ID: ")
-recommended_content = recommend_content(user_id, user_data, content_data)
+    # Add user interest as last document 
+    documents.append(user_interest) 
  
-print("\nTop 3 Recommended Content Indices:")
-print(recommended_content)
+    # Convert to TF-IDF vectors 
+    vectorizer = TfidfVectorizer(stop_words='english') 
+    tfidf_matrix = vectorizer.fit_transform(documents) 
+ 
+    # Compute similarity between user interest and website contents 
+    similarity = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1]) 
+ 
+    # Get top 3 similar contents 
+    similarity_scores = similarity.flatten() 
+    top_indices = similarity_scores.argsort()[-3:][::-1] 
+ 
+    recommendations = [] 
+    for index in top_indices: 
+        recommendations.append((titles[index], documents[index])) 
+ 
+    return recommendations 
+  
+def generate_recommendation(user_name, interest): 
+    recommended_items = recommend_content(interest) 
+ 
+    message = f"\nHello {user_name},\n" 
+    message += f"Based on your interest in '{interest}', we recommend the following:\n\n" 
+ 
+    for i, (title, content) in enumerate(recommended_items, 1): 
+        message += f"{i}. {title}\n   {content}\n\n" 
+ 
+    message += "Visit our website to explore these services further.\n" 
+ 
+    return message 
+ 
+print("====== AI Targeted Content Recommendation System ======\n") 
+ 
+user_name = input("Enter User Name: ") 
+user_interest = input("Enter User Interest or Search Query: ") 
+ 
+result = generate_recommendation(user_name, user_interest) 
+ 
+print("\n Recommended Content:\n") 
+print(result)
 """ 
-Output = Enter the user ID: John
- 
-Top 3 Recommended Content Indices:
-[0 2 1]
+Output:
+====== AI Targeted Content Recommendation System ======
+
+Enter User Name: Pranav
+Enter User Interest or Search Query: Computers    
+
+ Recommended Content:
+
+
+Hello Pranav,
+Based on your interest in 'Computers', we recommend the following:
+
+1. Online Advertising
+   Run paid advertising campaigns to increase website traffic and conversions.
+
+2. Web Analytics
+   Track website performance and customer behavior using advanced analytics tools.
+
+3. Content Marketing
+   Attract and retain customers with high-quality content marketing solutions.
+
+Visit our website to explore these services further.
 """
