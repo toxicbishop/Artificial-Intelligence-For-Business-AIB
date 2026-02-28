@@ -6,18 +6,16 @@ Welcome to the official repository for the **Artificial Intelligence for Busines
 
 ## 📌 Course Information
 
-| Detail | Description |
-| :--- | :--- |
-| **Subject Name** | Artificial Intelligence for Business |
-| **Subject Code** | BCB601 |
-| **Semester** | 6th Semester |
+| Detail             | Description                                                                                                     |
+| :----------------- | :-------------------------------------------------------------------------------------------------------------- |
+| **Subject Name**   | Artificial Intelligence for Business                                                                            |
+| **Subject Code**   | BCB601                                                                                                          |
+| **Semester**       | 6th Semester                                                                                                    |
 | **Academic Focus** | Leveraging AI techniques to solve business problems, optimize processes, and drive data-driven decision-making. |
 
 ---
 
 ## 📂 Repository Structure
-
-The repository is organized by practical sessions/programs:
 
 - **01 - 08**: Each directory contains Python implementations of core concepts discussed in the syllabus.
 - **Scripts**: Focused on practical applications of AI in business scenarios.
@@ -26,11 +24,16 @@ The repository is organized by practical sessions/programs:
 
 ## 📝 Programs
 
-| Program | Title | Description |
-| :---: | :--- | :--- |
-| **01** | Email Completion using GPT-2 | Uses the pre-trained GPT-2 model to auto-complete email drafts given a prompt. |
-| **02** | Personalized Email Generation (GPT-2 Medium) | Generates personalized emails based on user preferences and interests using GPT-2 Medium. |
-| **03** | AI-Driven Marketing System | Develops data-driven website content, optimizes it for SEO using TF-IDF, and generates personalized marketing emails for customers. |
+| Program | Title                                        | Description                                                                                                                         |
+| :-----: | :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
+| **01**  | Email Completion using GPT-2                 | Uses the pre-trained GPT-2 model to auto-complete email drafts given a prompt.                                                      |
+| **02**  | Personalized Email Generation (GPT-2 Medium) | Generates personalized emails based on user preferences and interests using GPT-2 Medium.                                           |
+| **03**  | AI-Driven Marketing System                   | Develops data-driven website content, optimizes it for SEO using TF-IDF, and generates personalized marketing emails for customers. |
+| **04**  | AI Targeted Content Recommendation System    | Uses TF-IDF and cosine similarity to recommend personalized content based on user interests.                                        |
+| **05**  | Programmatic Advertising                     | Collects user data via cookies to display targeted ads using a Flask-based programmatic advertising approach.                       |
+| **06**  | AI-Powered Analytics Predictions             | Visualizes website traffic and uses Linear Regression to predict future sessions based on simulated Google Analytics data.          |
+| **07**  | AI-Driven Presentation Creation              | Automates the creation of PowerPoint presentations for PR and branding, including title, content, and branding slides.              |
+| **08**  | AI Product Search & Content Marketing        | Implements text, voice, and visual searches for e-commerce products along with AI-driven content marketing titles.                  |
 
 ---
 
