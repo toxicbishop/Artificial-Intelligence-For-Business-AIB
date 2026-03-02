@@ -13,6 +13,9 @@
 =============================================================================
 """
 
+"""Develop a system to recommend highly targeted content to users of 
+the Web site
+"""
 from sklearn.feature_extraction.text import TfidfVectorizer 
 from sklearn.metrics.pairwise import cosine_similarity 
 website_data = { 
