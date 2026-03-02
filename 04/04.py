@@ -70,6 +70,7 @@ result = generate_recommendation(user_name, user_interest)
  
 print("\n Recommended Content:\n") 
 print(result)
+
 """ 
 Output:
 ====== AI Targeted Content Recommendation System ======
