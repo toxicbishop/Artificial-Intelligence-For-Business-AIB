@@ -76,13 +76,13 @@ Output:
 ====== AI Targeted Content Recommendation System ======
 
 Enter User Name: Pranav
-Enter User Interest or Search Query: Computers    
+Enter User Interest or Search Query: Web dev
 
  Recommended Content:
 
 
 Hello Pranav,
-Based on your interest in 'Computers', we recommend the following:
+Based on your interest in 'Web dev', we recommend the following:
 
 1. Online Advertising
    Run paid advertising campaigns to increase website traffic and conversions.
