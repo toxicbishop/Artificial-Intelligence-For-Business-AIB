@@ -11,6 +11,10 @@
   Dependencies : flask  (pip install flask)
 =============================================================================
 """
+"""
+Develop AI-powered programmatic advertising by using cookies and collecting 
+user data. 
+"""
 from flask import Flask, request, jsonify, make_response
  
 app = Flask(__name__)

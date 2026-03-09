@@ -12,6 +12,11 @@
   Dependencies : pandas, numpy, matplotlib, seaborn, scikit-learn
 =============================================================================
 """
+
+"""
+AI and Analytics: Create analytics dashboard. Integrate Google Analytics with the 
+dashboard. Use AI tool (Open) to draw from the existing data to make predictions.
+"""
 import pandas as pd 
 import numpy as np 
 import matplotlib.pyplot as plt 
