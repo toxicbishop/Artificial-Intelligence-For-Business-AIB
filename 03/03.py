@@ -15,6 +15,7 @@
 
 """AI and Marketing: Develop data-driven content for a given business organization (Web site). 
 Optimize Website content for search engines. Send emails to customers with personalized content/activity."""
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
