@@ -4,3 +4,9 @@ scikit-learn
 transformers
 torch
 flask
+python-pptx
+SpeechRecognition
+Pillow
+matplotlib
+seaborn
+flask-cors

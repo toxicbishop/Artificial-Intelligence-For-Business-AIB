@@ -51,7 +51,7 @@ generated_email = generate_personalized_email(user, purpose, your_name)
 print("\nGenerated Email:\n")
 print(generated_email)
 
-    """Output:
+"""Output:
     Generated Email:
     Subject: Exciting Insights on product launch!
     Dear John,

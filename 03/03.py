@@ -93,8 +93,7 @@ print("\n====== Personalized Email Section ======\n")
 customer_name = input("Enter Customer Name: ")
 interest = input("Enter Customer Interest: ")
 
-email = generate_personalized_
-email(customer_name, interest, business_name)
+email = generate_personalized_email(customer_name, interest, business_name)
 
 print("\nGenerated Personalized Email:\n")
 print(email)
