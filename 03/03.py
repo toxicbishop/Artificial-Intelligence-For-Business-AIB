@@ -13,12 +13,10 @@
 =============================================================================
 """
 
-"""AI and Marketing: Develop data-driven content for a given business organization (Web site). 
-Optimize Website content for search engines. Send emails to customers with personalized content/activity."""
-
+# AI-Driven Marketing System: Website content generator, SEO analyzer, and Personalized emails
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-
+# Generate dynamic website content based on business inputs
 def generate_website_content(business_name, industry, services):
     content = f"""
 Welcome to {business_name}!
@@ -33,26 +31,15 @@ Contact us today to boost your brand visibility and achieve business success.
 """
     return content
 
-
+# SEO optimization: Extract top keywords using TF-IDF
 def seo_optimization(text):
-    vectorizer = TfidfVectorizer(
-        stop_words='english',
-        max_features=20,
-        ngram_range=(1, 2)
-    )
-
+    vectorizer = TfidfVectorizer(stop_words='english', max_features=20, ngram_range=(1, 2))
     X = vectorizer.fit_transform([text])
     keywords = vectorizer.get_feature_names_out()
-
-    sorted_keywords = sorted(
-        keywords,
-        key=lambda x: X[0, vectorizer.vocabulary_[x]],
-        reverse=True
-    )
-
+    sorted_keywords = sorted(keywords, key=lambda x: X[0, vectorizer.vocabulary_[x]], reverse=True)
     return sorted_keywords[:10]
 
-
+# Generate a personalized email for customers
 def generate_personalized_email(customer_name, interest, business_name):
     email = f"""
 Subject: Special Offer Just for You, {customer_name}!
@@ -71,31 +58,30 @@ Best Regards,
 """
     return email
 
-
+# Execution section: Collect business data, generate content, and run SEO
 print("====== AI Driven Marketing System ======\n")
-
 business_name = input("Enter Business Name: ")
 industry = input("Enter Industry Type: ")
 services = input("Enter Main Services (comma separated): ")
-
 website_content = generate_website_content(business_name, industry, services)
 
+# Display results
 print("\nGenerated Website Content:\n")
 print(website_content)
 
+# Run SEO and display keywords
 keywords = seo_optimization(website_content)
-
 print("\nTop SEO Keywords:\n")
 for i, word in enumerate(keywords, 1):
     print(f"{i}. {word}")
 
+# Execution section: collect customer data for emails
 print("\n====== Personalized Email Section ======\n")
-
 customer_name = input("Enter Customer Name: ")
 interest = input("Enter Customer Interest: ")
-
 email = generate_personalized_email(customer_name, interest, business_name)
 
+# Final display
 print("\nGenerated Personalized Email:\n")
 print(email)
 
@@ -108,7 +94,6 @@ Enter Main Services (comma separated): Search,Youtube,Android, Chrome, Gmail
 
 Generated Website Content:
 
-
 Welcome to Google!
 
 We are a leading Technology company dedicated to delivering high-quality services.
@@ -118,7 +103,6 @@ We help businesses grow through innovative strategies,
 customer-focused solutions, and data-driven marketing techniques.
 
 Contact us today to boost your brand visibility and achieve business success.
-
 
 Top SEO Keywords:
 
@@ -139,7 +123,6 @@ Enter Customer Name: Pranav
 Enter Customer Interest: Search, information
 
 Generated Personalized Email:
-
 
 Subject: Special Offer Just for You, Pranav!
 

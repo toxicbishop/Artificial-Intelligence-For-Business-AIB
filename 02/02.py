@@ -13,17 +13,21 @@
 =============================================================================
 """
 
-"""Marketer to Machine: Develop level-2 Marketer-to-Machine (M2M) Scale of intelligent automation to
-personalize business email based on user preferences and interests"""
-
+# Marketer to Machine: Personalized business email generator using GPT-2 Medium
 from transformers import pipeline
+
+# Load the text-generation pipeline
 text_generator = pipeline("text-generation", model="gpt2-medium")
+
+# User interest database for personalization
 user_preferences = {
     "John": "Technology",
     "Alice": "Health",
     "Emma": "Finance",
     "Michael": "Education"
 }
+
+# Generate a personalized email based on user interest and purpose
 def generate_personalized_email(user, purpose, your_name):
     interest = user_preferences.get(user, "Technology")
     prompt = (
@@ -44,10 +48,14 @@ def generate_personalized_email(user, purpose, your_name):
         top_p=0.9
     )[0]['generated_text']
     return generated_email
+
+# User inputs and text generation execution
 user = input("Enter the recipient's name: ")
 purpose = input("Enter the purpose of the email (e.g., product launch, thank you): ")
 your_name = input("Enter your Name: ")
 generated_email = generate_personalized_email(user, purpose, your_name)
+
+# Output results
 print("\nGenerated Email:\n")
 print(generated_email)
 
