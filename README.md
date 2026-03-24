@@ -4,7 +4,7 @@ Welcome to the official repository for the **Artificial Intelligence for Busines
 
 ---
 
-## 📌 Course Information
+## Course Information
 
 | Detail             | Description                                                                                                     |
 | :----------------- | :-------------------------------------------------------------------------------------------------------------- |
@@ -15,14 +15,14 @@ Welcome to the official repository for the **Artificial Intelligence for Busines
 
 ---
 
-## 📂 Repository Structure
+## Repository Structure
 
 - **01 - 08**: Each directory contains Python implementations of core concepts discussed in the syllabus.
 - **Scripts**: Focused on practical applications of AI in business scenarios.
 
 ---
 
-## 📝 Programs
+## Programs
 
 | Program | Title                                        | Description                                                                                                                         |
 | :-----: | :------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------- |
@@ -37,7 +37,7 @@ Welcome to the official repository for the **Artificial Intelligence for Busines
 
 ---
 
-## 🛠️ Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -75,7 +75,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🎓 Learning Objectives
+## Learning Objectives
 
 - Understand the intersection of AI and modern business strategy.
 - Implement machine learning models for predictive analytics.
@@ -84,7 +84,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🤝 Contribution
+## Contribution
 
 This repository is for educational purposes. Students are encouraged to explore, suggest improvements, and use these resources for their academic growth.
 
