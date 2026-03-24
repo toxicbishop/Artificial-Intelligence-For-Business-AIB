@@ -1,0 +1,21 @@
+HOW TO EXECUTE PYTHON PPT SCRIPT IN AN IDE
+
+1.  Install Required Libraries Run in terminal: pip install python-pptx
+    pillow
+
+2.  Create Project Structure ProjectFolder/ │ ├── main.py ├── assets/ │
+    └── logo.png └── output/
+
+3.  Add Your Code Save your Python script as main.py
+
+4.  Set Image Path Use: img_path = “assets/logo.png”
+
+5.  Run the Program In IDE: Click Run ▶️ OR terminal: python main.py
+
+6.  Check Output output/final-presentation.pptx
+
+Common Errors: - Wrong file path - Missing libraries - Incorrect
+indentation
+
+Debug Tip: import os print(os.getcwd())
+print(os.path.exists(“assets/logo.png”))
