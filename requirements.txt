@@ -10,3 +10,4 @@ Pillow
 matplotlib
 seaborn
 flask-cors
+pyaudio
