@@ -107,3 +107,30 @@ if os.path.exists(uploaded_path):
         print("No match found") 
 else: 
     print(" File not found")
+
+"""
+OUTPUT: - 
+Part 1: Content Marketing using AI 
+Enter a topic:  AI 
+Suggested Content Titles: 
+* How AI is transforming digital marketing 
+* Top 5 AI tools for content writers 
+* Benefits of AI in SEO and keyword optimization 
+* Creating personalized content using AI 
+* AI trends shaping future of content marketing 
+* Building brand identity using generative AI 
+* AI in content curation for social media 
+* Creating viral content using AI-powered insights 
+Part 2: Text-Based E-Commerce Product Search 
+Enter product:  Headphones 
+Matching Products: 
+* Headphones 
+Part 3: Customer Service – Voice Search 
+Speak now... 
+You said: laptop 
+Matched: Laptop 
+Part 4: Customer Service – Visual Search 
+Enter image path (e.g., images/smartphone.jpg):  ../images/camera.jpg 
+Simulated AI Tags: smartphone, laptop, camera 
+Matched Product: camera
+"""
