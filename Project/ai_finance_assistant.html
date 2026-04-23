@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Finance Assistant</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0a0e1a;--bg2:#0f1422;--bg3:#151b2e;--bg4:#1c2339;
+    --gold:#d4af37;--gold2:#f5c959;--goldfade:rgba(212,175,55,0.1);
+    --green:#10b981;--greenfade:rgba(16,185,129,0.12);
+    --red:#ef4444;--redfade:rgba(239,68,68,0.12);
+    --blue:#3b82f6;--purple:#8b5cf6;
+    --text:#e8ecf5;--muted:#8590a8;--border:rgba(255,255,255,0.06);
+    --font-head:'Playfair Display',serif;--font-body:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  }
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;display:flex;flex-direction:column;font-size:13px}
+
+  /* HEADER */
+  .hdr{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,#0f1422 0%,#0a0e1a 100%);position:relative}
+  .hdr::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.3}
+  .brand-mark{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;color:#0a0e1a;font-size:14px}
+  .hdr-title{font-family:var(--font-head);font-size:17px;font-weight:700;letter-spacing:0.01em;color:var(--text)}
+  .hdr-title span{color:var(--gold);font-style:italic}
+  .hdr-ticker{margin-left:auto;display:flex;gap:16px;font-family:var(--font-mono);font-size:11px}
+  .tick{display:flex;gap:6px;align-items:center}
+  .tick-name{color:var(--muted)}
+  .tick-up{color:var(--green)}
+  .tick-down{color:var(--red)}
+  .hdr-badge{font-size:10px;padding:4px 10px;border-radius:20px;border:1px solid var(--gold);color:var(--gold);letter-spacing:0.1em;font-family:var(--font-mono)}
+
+  /* LAYOUT */
+  .layout{display:flex;flex:1;overflow:hidden;height:calc(100vh - 55px)}
+
+  /* SIDEBAR */
+  .sidebar{width:230px;min-width:230px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:14px 0;overflow-y:auto}
+  .nav-section{font-size:10px;letter-spacing:0.14em;color:var(--muted);padding:14px 18px 8px;text-transform:uppercase;font-weight:600}
+  .nav-item{display:flex;align-items:center;gap:11px;padding:10px 18px;cursor:pointer;font-size:12.5px;color:var(--muted);transition:all .15s;border-left:2px solid transparent;font-weight:500}
+  .nav-item:hover{color:var(--text);background:rgba(255,255,255,0.02)}
+  .nav-item.active{color:var(--gold);background:var(--goldfade);border-left-color:var(--gold)}
+  .nav-icon{font-size:14px;width:18px;text-align:center}
+  .nav-num{margin-left:auto;font-family:var(--font-mono);font-size:9px;color:var(--muted);opacity:.6}
+
+  /* MAIN */
+  .main{flex:1;overflow-y:auto;padding:26px 32px;background:var(--bg)}
+
+  /* PAGE HEADER */
+  .page-hdr{margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid var(--border)}
+  .page-tag{font-family:var(--font-mono);font-size:10px;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+  .page-title{font-family:var(--font-head);font-size:28px;font-weight:800;color:var(--text);line-height:1.15;letter-spacing:-0.01em}
+  .page-title em{color:var(--gold);font-style:italic}
+  .page-sub{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.6;max-width:780px}
+
+  /* CARD */
+  .card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px;position:relative}
+  .card::before{content:'';position:absolute;top:0;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.25}
+  .card-title{font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .card-title::before{content:'';width:4px;height:12px;background:var(--gold);border-radius:2px}
+
+  /* FORM */
+  input,textarea,select{
+    width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:7px;
+    padding:10px 13px;font-family:var(--font-body);font-size:12.5px;color:var(--text);
+    outline:none;transition:all .15s;resize:vertical
+  }
+  input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--goldfade)}
+  label{font-size:11px;color:var(--muted);display:block;margin-bottom:6px;letter-spacing:0.04em;font-weight:500;text-transform:uppercase}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+  .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+  .form-group{margin-bottom:14px}
+  select option{background:#151b2e}
+
+  /* BUTTON */
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:10px 20px;border-radius:7px;border:none;cursor:pointer;
+    font-family:var(--font-body);font-size:12.5px;font-weight:600;
+    transition:all .15s;letter-spacing:0.02em
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0a0e1a}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(212,175,55,0.3)}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+  .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.15)}
+
+  /* OUTPUT */
+  .output-box{
+    background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+    padding:18px 20px;font-size:12.5px;line-height:1.75;color:var(--text);
+    min-height:120px;white-space:pre-wrap;word-break:break-word;
+    border-left:3px solid var(--gold);font-family:var(--font-body)
+  }
+  .output-box.loading{color:var(--muted);font-style:italic}
+
+  /* METRICS */
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+  .metric-card{background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:14px 16px;position:relative;overflow:hidden}
+  .metric-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+  .metric-label{font-size:10px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;font-weight:600;margin-bottom:6px}
+  .metric-val{font-family:var(--font-mono);font-size:22px;font-weight:600;color:var(--text)}
+  .metric-delta{font-size:11px;margin-top:4px;font-family:var(--font-mono)}
+  .delta-up{color:var(--green)}
+  .delta-down{color:var(--red)}
+
+  /* TAGS */
+  .tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;letter-spacing:0.05em;margin:3px 3px 3px 0;font-family:var(--font-mono);font-weight:500}
+  .tag-gold{background:var(--goldfade);color:var(--gold);border:1px solid rgba(212,175,55,0.25)}
+  .tag-green{background:var(--greenfade);color:var(--green);border:1px solid rgba(16,185,129,0.25)}
+  .tag-red{background:var(--redfade);color:var(--red);border:1px solid rgba(239,68,68,0.25)}
+
+  /* HOME GRID */
+  .home-hero{background:linear-gradient(135deg,var(--bg3) 0%,var(--bg4) 100%);border:1px solid var(--border);border-radius:12px;padding:28px 30px;margin-bottom:20px;position:relative;overflow:hidden}
+  .home-hero::before{content:'';position:absolute;top:-50%;right:-10%;width:400px;height:400px;background:radial-gradient(circle,var(--goldfade) 0%,transparent 70%);pointer-events:none}
+  .home-hero h1{font-family:var(--font-head);font-size:30px;font-weight:800;color:var(--text);line-height:1.15;margin-bottom:10px;position:relative}
+  .home-hero h1 em{color:var(--gold);font-style:italic}
+  .home-hero p{color:var(--muted);font-size:13px;line-height:1.6;max-width:640px;position:relative}
+  .hero-stats{display:flex;gap:26px;margin-top:20px;position:relative}
+  .hero-stat{display:flex;flex-direction:column}
+  .hero-stat-val{font-family:var(--font-mono);font-size:18px;font-weight:600;color:var(--gold)}
+  .hero-stat-lbl{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px}
+
+  .home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .home-tile{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+  .home-tile::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+  .home-tile:hover{border-color:rgba(212,175,55,0.35);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+  .home-tile:hover::before{transform:scaleX(1)}
+  .home-tile-num{font-family:var(--font-mono);font-size:9px;color:var(--gold);letter-spacing:0.14em;margin-bottom:10px}
+  .home-tile-icon{font-size:22px;margin-bottom:10px;opacity:.9}
+  .home-tile-name{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.25}
+  .home-tile-desc{font-size:11.5px;color:var(--muted);line-height:1.55}
+
+  /* SEARCH TABS */
+  .search-tabs{display:flex;gap:8px;margin-bottom:16px}
+  .stab{padding:9px 18px;border-radius:7px;font-size:12px;cursor:pointer;border:1px solid var(--border);color:var(--muted);transition:all .15s;font-family:var(--font-body);font-weight:500}
+  .stab:hover{color:var(--text)}
+  .stab.active{background:var(--goldfade);color:var(--gold);border-color:var(--gold)}
+
+  /* VOICE */
+  .voice-ring{
+    width:80px;height:80px;border-radius:50%;border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    margin:0 auto 14px;transition:all .2s;font-size:28px;background:var(--bg2)
+  }
+  .voice-ring:hover,.voice-ring.recording{border-color:var(--gold);background:var(--goldfade)}
+  .voice-ring.recording{animation:pulse 1.2s infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.5)}50%{box-shadow:0 0 0 14px rgba(212,175,55,0)}}
+
+  /* IMAGE DROP */
+  .img-drop{
+    border:2px dashed var(--border);border-radius:10px;padding:32px;text-align:center;
+    cursor:pointer;transition:all .2s;font-size:12.5px;color:var(--muted);background:var(--bg2)
+  }
+  .img-drop:hover{border-color:var(--gold);background:var(--goldfade)}
+  .img-drop.has-image{border-color:var(--gold);border-style:solid}
+  .img-drop img{max-height:160px;max-width:100%;border-radius:6px;display:block;margin:0 auto 10px}
+
+  /* CHART */
+  .chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:16px}
+  .chart-svg{width:100%;height:200px;display:block}
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar{width:5px;height:5px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:3px}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(212,175,55,0.3)}
+
+  /* SPINNER */
+  .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(212,175,55,0.25);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* PITCH SLIDE PREVIEW */
+  .slide-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px}
+  .slide-mini{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px;font-size:10.5px;color:var(--muted);min-height:90px;line-height:1.5}
+  .slide-mini-num{font-family:var(--font-mono);color:var(--gold);font-size:9px;margin-bottom:4px}
+
+  /* AD PREVIEW CARDS */
+  .ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+  .ad-preview{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;position:relative;overflow:hidden;font-size:11.5px}
+  .ad-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+  .ad-preview.ad-loan::before{background:var(--gold)}
+  .ad-preview.ad-ins::before{background:var(--green)}
+  .ad-preview.ad-card::before{background:var(--blue)}
+  .ad-preview.ad-invest::before{background:var(--purple)}
+  .ad-label{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-family:var(--font-mono)}
+  .ad-head{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.25}
+  .ad-body-txt{font-size:11px;color:var(--muted);line-height:1.5}
+
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="brand-mark">F</div>
+  <div class="hdr-title">Fin<span>AI</span> Assistant</div>
+  <div class="hdr-ticker">
+    <div class="tick"><span class="tick-name">S&amp;P</span><span class="tick-up">5,874.20 ▲ 0.42%</span></div>
+    <div class="tick"><span class="tick-name">NIFTY</span><span class="tick-up">24,712.8 ▲ 0.18%</span></div>
+    <div class="tick"><span class="tick-name">GOLD</span><span class="tick-down">2,642.1 ▼ 0.09%</span></div>
+  </div>
+
+</div>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="nav-section">Modules</div>
+    <div class="nav-item active" onclick="nav(0)"><span class="nav-icon">⊞</span>Dashboard<span class="nav-num">HOME</span></div>
+    <div class="nav-item" onclick="nav(1)"><span class="nav-icon">✎</span>Email Autocomplete<span class="nav-num">01</span></div>
+    <div class="nav-item" onclick="nav(2)"><span class="nav-icon">✉</span>Investor Emails<span class="nav-num">02</span></div>
+    <div class="nav-item" onclick="nav(3)"><span class="nav-icon">◆</span>Advisory Content<span class="nav-num">03</span></div>
+    <div class="nav-item" onclick="nav(4)"><span class="nav-icon">◈</span>Investment Recs<span class="nav-num">04</span></div>
+    <div class="nav-item" onclick="nav(5)"><span class="nav-icon">◉</span>FinAd Campaigns<span class="nav-num">05</span></div>
+    <div class="nav-item" onclick="nav(6)"><span class="nav-icon">▲</span>Market Forecast<span class="nav-num">06</span></div>
+    <div class="nav-item" onclick="nav(7)"><span class="nav-icon">◧</span>Pitch Deck<span class="nav-num">07</span></div>
+    <div class="nav-item" onclick="nav(8)"><span class="nav-icon">⌖</span>Product Search<span class="nav-num">08</span></div>
+    <div style="margin-top:auto;padding:16px 18px">
+      <div style="font-size:10.5px;color:var(--muted);line-height:1.6">
+        AI Finance Automation<br>Suite for FinTech &amp;<br>Advisory Firms<br>
+        <span style="color:var(--gold);font-family:var(--font-mono);font-size:10px">v1.0.0 &middot; BCB601</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main" id="main-area"></div>
+</div>
+
+<script>
+const API = "https://api.anthropic.com/v1/messages";
+let activeModule = 0;
+
+async function callClaude(prompt, systemMsg) {
+  const sys = systemMsg || "You are an expert AI finance assistant for banks, fintech, and wealth advisory firms. Be precise, compliant-aware, and professional. Use clear structure with section headers. Include specific numbers and percentages where relevant. Never promise guaranteed returns.";
+  const resp = await fetch(API, {
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({
+      model:"claude-sonnet-4-20250514",
+      max_tokens:1200,
+      system: sys,
+      messages:[{role:"user",content:prompt}]
+    })
+  });
+  const data = await resp.json();
+  if(data.error) throw new Error(data.error.message);
+  return data.content[0].text;
+}
+
+async function streamToBox(boxId, prompt, systemMsg) {
+  const box = document.getElementById(boxId);
+  box.textContent = "";
+  box.className = "output-box loading";
+  box.innerHTML = '<span class="spin"></span> &nbsp; Analyzing with AI...';
+  try {
+    const text = await callClaude(prompt, systemMsg);
+    box.className = "output-box";
+    box.textContent = text;
+  } catch(e) {
+    box.className = "output-box";
+    box.textContent = "Error: " + e.message;
+  }
+}
+
+function nav(n) {
+  activeModule = n;
+  document.querySelectorAll('.nav-item').forEach((el,i)=>el.classList.toggle('active',i===n));
+  render(n);
+  document.getElementById('main-area').scrollTop = 0;
+}
+
+function render(n) {
+  const m = document.getElementById('main-area');
+  const pages = [renderHome, renderEmailAuto, renderInvestorEmail, renderAdvisory, renderRecs, renderAds, renderForecast, renderPitch, renderSearch];
+  m.innerHTML = "";
+  pages[n] && pages[n](m);
+}
+
+function V(id){return (document.getElementById(id)||{}).value||'';}
+
+/* ==================== HOME ==================== */
+function renderHome(m) {
+  m.innerHTML = `
+  <div class="home-hero">
+    <h1>AI-Powered <em>Finance</em> Command Center</h1>
+    <p>Eight intelligent modules to automate financial advisory, investor communication, market forecasting, and fintech marketing.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-val">08</div><div class="hero-stat-lbl">AI Modules</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">&lt; 3s</div><div class="hero-stat-lbl">Avg Response</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">100%</div><div class="hero-stat-lbl">Automated</div></div>
+      <div class="hero-stat"><div class="hero-stat-val">SEBI</div><div class="hero-stat-lbl">Aware</div></div>
+    </div>
+  </div>
+  <div class="home-grid">
+    ${[
+      ["01","✎","Email Autocomplete","Finish client emails mid-sentence using context-aware AI (GPT-2 style)."],
+      ["02","✉","Investor Emails","Personalized portfolio updates &amp; performance notes for every client."],
+      ["03","◆","Advisory Content","Website copy, SEO keywords &amp; outreach content for financial advisors."],
+      ["04","◈","Investment Recs","Recommend funds, stocks &amp; portfolios matched to risk profile."],
+      ["05","◉","FinAd Campaigns","Targeted ads for loans, insurance, credit cards &amp; investment products."],
+      ["06","▲","Market Forecast","Predict stock/portfolio performance using linear regression on inputs."],
+      ["07","◧","Pitch Deck","Generate investor pitch, earnings &amp; IPO roadshow presentations."],
+      ["08","⌖","Product Search","Find financial products by text, voice, or image (bill/statement)."],
+    ].map(([num,icon,name,desc],i)=>`
+      <div class="home-tile" onclick="nav(${i+1})">
+        <div class="home-tile-num">MODULE ${num}</div>
+        <div class="home-tile-icon">${icon}</div>
+        <div class="home-tile-name">${name}</div>
+        <div class="home-tile-desc">${desc}</div>
+      </div>
+    `).join('')}
+  </div>`;
+}
+
+/* ==================== 01 EMAIL AUTOCOMPLETE ==================== */
+function renderEmailAuto(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 01 · Program 01</div>
+    <div class="page-title">Email <em>Autocomplete</em></div>
+    <div class="page-sub">Start typing a financial client email — AI finishes it in your voice. Built on the same concept as GPT-2 next-token prediction, but advisor-aware.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Draft Context</div>
+    <div class="form-row">
+      <div class="form-group"><label>Sender Role</label>
+        <select id="ea-role">
+          <option value="Relationship Manager">Relationship Manager</option>
+          <option value="Wealth Advisor">Wealth Advisor</option>
+          <option value="Loan Officer">Loan Officer</option>
+          <option value="Insurance Agent">Insurance Agent</option>
+          <option value="Portfolio Manager">Portfolio Manager</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Client / Recipient</label><input id="ea-client" placeholder="e.g. Mr. Rohan Mehta" /></div>
+    </div>
+    <div class="form-group"><label>Start the Email (partial draft)</label>
+      <textarea id="ea-prompt" rows="5" placeholder="Dear Mr. Mehta, I hope this email finds you well. Following our meeting last week regarding the diversification of your equity holdings, I wanted to share..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Completion Length</label>
+        <select id="ea-len">
+          <option value="short">Short (1 paragraph)</option>
+          <option value="medium" selected>Medium (2-3 paragraphs)</option>
+          <option value="long">Long (full email body + sign-off)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Tone</label>
+        <select id="ea-tone">
+          <option value="Formal, reassuring">Formal &amp; Reassuring</option>
+          <option value="Warm, advisory">Warm &amp; Advisory</option>
+          <option value="Concise, data-driven">Concise &amp; Data-driven</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="genEmailAuto()">✎ Auto-complete Email</button>
+  </div>
+  <div class="card">
+    <div class="card-title">AI-Completed Draft</div>
+    <div class="output-box" id="ea-out" style="color:var(--muted);font-style:italic">Enter a partial draft above and click auto-complete.</div>
+  </div>`;
+}
+async function genEmailAuto() {
+  const role=V('ea-role'),client=V('ea-client'),text=V('ea-prompt'),len=V('ea-len'),tone=V('ea-tone');
+  if(!text){alert("Please start typing the email draft.");return;}
+  const lenMap={short:"1 short paragraph completing the thought",medium:"2-3 paragraphs with specifics and a clear next step",long:"a complete email body including sign-off"};
+  await streamToBox('ea-out',`You are auto-completing a financial services email. Continue the text naturally from exactly where it ends — do NOT repeat what's already written. Reproduce the existing text first, then continue.
+
+Role of sender: ${role}
+Client: ${client||'Client'}
+Tone: ${tone}
+Completion length: ${lenMap[len]}
+
+Partial draft to complete:
+"""
+${text}
+"""
+
+Continue seamlessly and professionally, include realistic financial details (NOT guarantees), and close appropriately.`,'You are an expert financial writer. Complete drafts naturally, stay compliant (no guaranteed returns), reference realistic financial concepts.');
+}
+
+/* ==================== 02 INVESTOR EMAILS ==================== */
+function renderInvestorEmail(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 02 · Program 02</div>
+    <div class="page-title">Personalized <em>Investor Emails</em></div>
+    <div class="page-sub">Generate personalized portfolio updates, market commentary, and client communications — tailored to each investor's profile.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Campaign Configuration</div>
+    <div class="form-row">
+      <div class="form-group"><label>Email Type</label>
+        <select id="ie-type">
+          <option value="portfolio-update">Monthly Portfolio Update</option>
+          <option value="market-commentary">Market Commentary</option>
+          <option value="onboarding">New Client Onboarding</option>
+          <option value="rebalance">Portfolio Rebalancing Alert</option>
+          <option value="tax">Year-End Tax Planning</option>
+          <option value="win-back">Re-engagement / Win-back</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Firm Name</label><input id="ie-firm" placeholder="e.g. Azure Capital Advisors" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Investor Name</label><input id="ie-name" placeholder="e.g. Priya Sharma" /></div>
+      <div class="form-group"><label>Investor Segment</label>
+        <select id="ie-seg">
+          <option>Retail / Mass Affluent</option>
+          <option>HNI (₹1Cr+ AUM)</option>
+          <option>Ultra-HNI (₹25Cr+ AUM)</option>
+          <option>NRI Investor</option>
+          <option>Institutional / Corporate</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Portfolio Performance</label><input id="ie-perf" placeholder="e.g. +8.4% YTD vs Nifty 50 +5.1%" /></div>
+      <div class="form-group"><label>Risk Profile</label>
+        <select id="ie-risk">
+          <option>Conservative</option>
+          <option selected>Balanced</option>
+          <option>Aggressive Growth</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Key Message / Talking Point</label><textarea id="ie-msg" rows="2" placeholder="e.g. Recommend shifting 15% from small-caps to debt funds given market volatility"></textarea></div>
+    <button class="btn btn-primary" onclick="genInvestorEmail()">✉ Generate Email</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Personalized Email</div>
+    <div class="output-box" id="ie-out" style="color:var(--muted);font-style:italic">Configure and generate.</div>
+  </div>`;
+}
+async function genInvestorEmail() {
+  const type=V('ie-type'),firm=V('ie-firm'),name=V('ie-name'),seg=V('ie-seg'),perf=V('ie-perf'),risk=V('ie-risk'),msg=V('ie-msg');
+  if(!firm){alert("Please enter firm name.");return;}
+  await streamToBox('ie-out',`Write a complete personalized ${type} email.
+
+From: ${firm}
+To: ${name||'Valued Investor'} (${seg}, ${risk} risk profile)
+Portfolio performance: ${perf||'steady growth in line with benchmark'}
+Key message: ${msg||'general update and outlook'}
+
+Include these sections clearly labeled:
+SUBJECT LINE:
+PREHEADER:
+GREETING:
+BODY (2-3 paragraphs — include specific numbers and next steps):
+CTA:
+SIGN-OFF & COMPLIANCE DISCLAIMER:
+
+Make it warm, data-backed, and compliant (no guaranteed returns, include standard "investments are subject to market risk" note).`);
+}
+
+/* ==================== 03 ADVISORY CONTENT ==================== */
+function renderAdvisory(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 03 · Program 03</div>
+    <div class="page-title">Advisory <em>Content System</em></div>
+    <div class="page-sub">Generate SEO-optimized website content, blog titles, and meta descriptions for financial advisory firms — all in one shot.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Firm Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Firm Name</label><input id="ac-firm" placeholder="e.g. Azure Capital Advisors" /></div>
+      <div class="form-group"><label>Specialization</label>
+        <select id="ac-spec">
+          <option>Wealth Management</option>
+          <option>Mutual Fund Distribution</option>
+          <option>Tax &amp; Estate Planning</option>
+          <option>Insurance &amp; Protection</option>
+          <option>Corporate Finance Advisory</option>
+          <option>Retirement Planning</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Services Offered</label><input id="ac-svc" placeholder="e.g. Portfolio Management, SIP Planning, Tax Saving, Retirement Corpus" /></div>
+    <div class="form-group"><label>Target Audience</label><input id="ac-aud" placeholder="e.g. Salaried professionals 30-50, HNIs, Small business owners" /></div>
+    <div class="form-row">
+      <div class="form-group"><label>Content Package</label>
+        <select id="ac-pkg">
+          <option value="homepage">Homepage Copy</option>
+          <option value="blog">10 Blog Titles + Outlines</option>
+          <option value="seo">SEO Keywords + Meta Description</option>
+          <option value="full" selected>Full Package (all above)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Region</label>
+        <select id="ac-reg">
+          <option>India</option><option>USA</option><option>UK</option><option>UAE</option><option>Global</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="genAdvisory()">◆ Generate Content Pack</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Generated Content</div>
+    <div class="output-box" id="ac-out" style="color:var(--muted);font-style:italic">Fill in firm details above.</div>
+  </div>`;
+}
+async function genAdvisory() {
+  const firm=V('ac-firm'),spec=V('ac-spec'),svc=V('ac-svc'),aud=V('ac-aud'),pkg=V('ac-pkg'),reg=V('ac-reg');
+  if(!firm){alert("Please enter firm name.");return;}
+  const pkgMap={
+    homepage:"complete homepage content: hero headline, subheadline, 3 value props, services overview, trust signals, CTA",
+    blog:"10 blog post titles with 1-line outline each, targeted at the audience and SEO-optimized",
+    seo:"15 SEO keywords (mix of short-tail and long-tail) with search intent labels, plus a 160-char meta description",
+    full:"ALL of: homepage copy (hero, subhead, 3 value props, CTA), 5 blog titles with outlines, 12 SEO keywords, meta description"
+  };
+  await streamToBox('ac-out',`Generate ${pkgMap[pkg]} for a financial advisory firm.
+
+Firm: ${firm}
+Specialization: ${spec}
+Services: ${svc||'General financial advisory'}
+Audience: ${aud||'Retail investors'}
+Region: ${reg}
+
+Use trust-building language ("SEBI-registered", "fiduciary", "transparent fees" where appropriate). Avoid any guaranteed-return claims. Format clearly with section headers.`);
+}
+
+/* ==================== 04 INVESTMENT RECS ==================== */
+function renderRecs(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 04 · Program 04</div>
+    <div class="page-title">Investment <em>Recommendations</em></div>
+    <div class="page-sub">TF-IDF-style content matching, upgraded with AI reasoning — recommend the right funds, stocks, or asset mix for each investor profile.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Investor Profile</div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Age</label><input id="rc-age" type="number" placeholder="e.g. 34" /></div>
+      <div class="form-group"><label>Monthly Income (₹)</label><input id="rc-inc" type="number" placeholder="e.g. 150000" /></div>
+      <div class="form-group"><label>Investable Corpus (₹)</label><input id="rc-corp" type="number" placeholder="e.g. 500000" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Risk Appetite</label>
+        <select id="rc-risk">
+          <option>Conservative (capital protection)</option>
+          <option selected>Balanced (moderate growth)</option>
+          <option>Aggressive (high growth)</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Investment Horizon</label>
+        <select id="rc-hor">
+          <option>Short (&lt;2 years)</option>
+          <option selected>Medium (3-5 years)</option>
+          <option>Long (7+ years)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Goal</label><input id="rc-goal" placeholder="e.g. Down payment for house in 5 years / Child education / Retirement" /></div>
+    <div class="form-group"><label>Existing Holdings (optional)</label><input id="rc-hold" placeholder="e.g. 3L in FD, 1L in Nifty index fund, 50k in gold" /></div>
+    <button class="btn btn-primary" onclick="genRecs()">◈ Generate Recommendations</button>
+  </div>
+  <div class="card">
+    <div class="card-title">AI Investment Plan</div>
+    <div class="output-box" id="rc-out" style="color:var(--muted);font-style:italic">Enter investor profile above.</div>
+  </div>`;
+}
+async function genRecs() {
+  const age=V('rc-age'),inc=V('rc-inc'),corp=V('rc-corp'),risk=V('rc-risk'),hor=V('rc-hor'),goal=V('rc-goal'),hold=V('rc-hold');
+  if(!corp){alert("Please enter investable corpus.");return;}
+  await streamToBox('rc-out',`You are an investment advisor. Produce a structured recommendation.
+
+Investor:
+- Age: ${age||'not specified'}
+- Monthly income: ₹${inc||'not specified'}
+- Investable corpus: ₹${corp}
+- Risk: ${risk}
+- Horizon: ${hor}
+- Goal: ${goal||'wealth creation'}
+- Current holdings: ${hold||'none specified'}
+
+Provide:
+1. ASSET ALLOCATION (%) — equity / debt / gold / alternatives with reasoning
+2. TOP 5 SPECIFIC RECOMMENDATIONS — fund/ETF/stock names with category, why it fits, and suggested allocation amount (₹)
+3. SIP vs LUMPSUM guidance
+4. EXPECTED OUTCOME — realistic return range over horizon (include the word "estimated", no guarantees)
+5. RISKS & MITIGATIONS — 3 bullets
+6. REVIEW CADENCE — when to rebalance
+
+Keep it specific, use Indian mutual fund / stock names where applicable. End with standard disclaimer.`,'You are a SEBI-aware financial advisor. Provide specific, realistic recommendations. Never guarantee returns. Use standard disclaimers.');
+}
+
+/* ==================== 05 FINAD CAMPAIGNS ==================== */
+function renderAds(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 05 · Program 05</div>
+    <div class="page-title">Programmatic <em>FinAd Campaigns</em></div>
+    <div class="page-sub">Generate targeted ad copy for loans, insurance, credit cards, and investment products across search, social, and display channels.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Campaign Setup</div>
+    <div class="form-row">
+      <div class="form-group"><label>Product</label>
+        <select id="ad-prod">
+          <option value="Personal Loan">Personal Loan</option>
+          <option value="Home Loan">Home Loan</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Term Life Insurance">Term Life Insurance</option>
+          <option value="Health Insurance">Health Insurance</option>
+          <option value="Mutual Fund SIP">Mutual Fund SIP</option>
+          <option value="Demat/Trading Account">Demat Account</option>
+          <option value="Fixed Deposit">Fixed Deposit</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Brand / Issuer</label><input id="ad-brand" placeholder="e.g. Azure Finance" /></div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Target Age</label>
+        <select id="ad-age"><option>22-30</option><option>30-45</option><option>45-60</option><option>60+</option></select>
+      </div>
+      <div class="form-group"><label>Income Segment</label>
+        <select id="ad-seg"><option>Mass Market (&lt;₹10L)</option><option>Mass Affluent (₹10-50L)</option><option>HNI (₹50L+)</option></select>
+      </div>
+      <div class="form-group"><label>Channel</label>
+        <select id="ad-ch">
+          <option value="all" selected>All (Search + Social + Display)</option>
+          <option value="search">Google Search</option>
+          <option value="social">Social (FB/IG/LinkedIn)</option>
+          <option value="display">Display Banners</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Unique Offer / Hook</label><input id="ad-uvp" placeholder="e.g. 8.49% interest, pre-approved in 60 seconds, no documentation" /></div>
+    <button class="btn btn-primary" onclick="genAds()">◉ Generate Ad Campaigns</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Generated Ad Copy</div>
+    <div class="output-box" id="ad-out" style="color:var(--muted);font-style:italic">Configure campaign and generate.</div>
+    <div class="ad-grid" id="ad-preview-grid" style="display:none">
+      <div class="ad-preview ad-loan"><div class="ad-label">Search Ad</div><div class="ad-head" id="adp1h">—</div><div class="ad-body-txt" id="adp1b">—</div></div>
+      <div class="ad-preview ad-ins"><div class="ad-label">Social Ad</div><div class="ad-head" id="adp2h">—</div><div class="ad-body-txt" id="adp2b">—</div></div>
+      <div class="ad-preview ad-card"><div class="ad-label">Display Banner</div><div class="ad-head" id="adp3h">—</div><div class="ad-body-txt" id="adp3b">—</div></div>
+      <div class="ad-preview ad-invest"><div class="ad-label">Video/Native</div><div class="ad-head" id="adp4h">—</div><div class="ad-body-txt" id="adp4b">—</div></div>
+    </div>
+  </div>`;
+}
+async function genAds() {
+  const prod=V('ad-prod'),brand=V('ad-brand'),age=V('ad-age'),seg=V('ad-seg'),ch=V('ad-ch'),uvp=V('ad-uvp');
+  if(!brand){alert("Please enter brand name.");return;}
+  const chMap={all:"Google Search (2), Facebook/Instagram (1), LinkedIn (1), Display banner (1), and one Video/YouTube hook",search:"5 Google Search ad variations with headlines and descriptions",social:"3 Facebook/Instagram and 2 LinkedIn ad variations",display:"4 display banner ad variations with copy for different sizes"};
+  await streamToBox('ad-out',`Create targeted financial product ad copy: ${chMap[ch]}.
+
+Product: ${prod}
+Brand: ${brand}
+Target: Age ${age}, ${seg}
+Hook/Offer: ${uvp||'competitive rates and fast approval'}
+
+For each ad, clearly label: CHANNEL, HEADLINE (with char count for search), BODY COPY, CTA, AUDIENCE TARGETING NOTES.
+
+Finance compliance:
+- Include mandatory disclaimer line (e.g., "T&amp;C apply", "Subject to credit approval", "Investments subject to market risk" as relevant)
+- No guaranteed returns
+- Clear about rates/terms
+
+Make them high-converting but responsible.`);
+}
+
+/* ==================== 06 MARKET FORECAST ==================== */
+function renderForecast(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 06 · Program 06</div>
+    <div class="page-title">Market <em>Forecast &amp; Analytics</em></div>
+    <div class="page-sub">Linear regression-based forecasting paired with AI analysis. Enter portfolio or revenue metrics; get predictions and actionable insights.</div>
+  </div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-label">Current Value</div><div class="metric-val" id="fm1">—</div><div class="metric-delta" id="fd1"></div></div>
+    <div class="metric-card"><div class="metric-label">3-Mo Forecast</div><div class="metric-val" id="fm2">—</div><div class="metric-delta delta-up" id="fd2"></div></div>
+    <div class="metric-card"><div class="metric-label">6-Mo Forecast</div><div class="metric-val" id="fm3">—</div><div class="metric-delta delta-up" id="fd3"></div></div>
+    <div class="metric-card"><div class="metric-label">Volatility</div><div class="metric-val" id="fm4">—</div><div class="metric-delta" id="fd4"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Historical Data (6 Months)</div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Asset / Metric</label><input id="fc-asset" placeholder="e.g. Nifty 50 / Portfolio AUM" /></div>
+      <div class="form-group"><label>Unit</label>
+        <select id="fc-unit"><option>₹ Lakhs</option><option>₹ Crores</option><option>USD</option><option>Index Points</option></select>
+      </div>
+      <div class="form-group"><label>Sector</label>
+        <select id="fc-sec"><option>Equity</option><option>Debt</option><option>Real Estate</option><option>Commodities</option><option>Crypto</option><option>Mixed</option></select>
+      </div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Month 1</label><input id="fc-m1" type="number" placeholder="1000" /></div>
+      <div class="form-group"><label>Month 2</label><input id="fc-m2" type="number" placeholder="1050" /></div>
+      <div class="form-group"><label>Month 3</label><input id="fc-m3" type="number" placeholder="1080" /></div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Month 4</label><input id="fc-m4" type="number" placeholder="1110" /></div>
+      <div class="form-group"><label>Month 5</label><input id="fc-m5" type="number" placeholder="1140" /></div>
+      <div class="form-group"><label>Month 6</label><input id="fc-m6" type="number" placeholder="1175" /></div>
+    </div>
+    <button class="btn btn-primary" onclick="genForecast()">▲ Predict &amp; Analyze</button>
+  </div>
+  <div class="chart-wrap" id="fc-chart-wrap" style="display:none">
+    <div class="card-title" style="margin-bottom:10px">Trend &amp; Forecast</div>
+    <svg class="chart-svg" id="fc-chart" viewBox="0 0 600 200" preserveAspectRatio="none"></svg>
+  </div>
+  <div class="card">
+    <div class="card-title">AI Insights &amp; Forecast</div>
+    <div class="output-box" id="fc-out" style="color:var(--muted);font-style:italic">Enter 6 months of data and click predict.</div>
+  </div>`;
+}
+function linearRegression(y) {
+  const n=y.length;
+  const x=Array.from({length:n},(_,i)=>i+1);
+  const sumX=x.reduce((a,b)=>a+b,0), sumY=y.reduce((a,b)=>a+b,0);
+  const sumXY=x.reduce((a,b,i)=>a+b*y[i],0), sumXX=x.reduce((a,b)=>a+b*b,0);
+  const slope=(n*sumXY-sumX*sumY)/(n*sumXX-sumX*sumX);
+  const intercept=(sumY-slope*sumX)/n;
+  return {slope,intercept,predict:(xVal)=>slope*xVal+intercept};
+}
+function drawChart(vals, fut) {
+  const svg=document.getElementById('fc-chart');
+  const all=[...vals,...fut];
+  const max=Math.max(...all), min=Math.min(...all);
+  const range=max-min || 1;
+  const W=600, H=200, pad=20;
+  const xStep=(W-pad*2)/(all.length-1);
+  const toY=v=>H-pad-((v-min)/range)*(H-pad*2);
+  let path=all.map((v,i)=>(i===0?'M':'L')+(pad+i*xStep)+','+toY(v)).join(' ');
+  let actualPath=vals.map((v,i)=>(i===0?'M':'L')+(pad+i*xStep)+','+toY(v)).join(' ');
+  let futPath=fut.map((v,i)=>(i===0?'M':'L')+(pad+(vals.length-1+i+1)*xStep)+','+toY(v)).join(' ');
+  // Area fill under actuals
+  let areaPath=actualPath+` L ${pad+(vals.length-1)*xStep},${H-pad} L ${pad},${H-pad} Z`;
+  svg.innerHTML=`
+    <defs>
+      <linearGradient id="gradFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d4af37" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    <path d="${areaPath}" fill="url(#gradFill)"/>
+    <path d="${actualPath}" stroke="#d4af37" stroke-width="2.2" fill="none"/>
+    <path d="M ${pad+(vals.length-1)*xStep},${toY(vals[vals.length-1])} ${futPath}" stroke="#10b981" stroke-width="2.2" stroke-dasharray="4,4" fill="none"/>
+    ${vals.map((v,i)=>`<circle cx="${pad+i*xStep}" cy="${toY(v)}" r="3.5" fill="#d4af37"/>`).join('')}
+    ${fut.map((v,i)=>`<circle cx="${pad+(vals.length-1+i+1)*xStep}" cy="${toY(v)}" r="3.5" fill="#10b981"/>`).join('')}
+  `;
+}
+async function genForecast() {
+  const asset=V('fc-asset'),unit=V('fc-unit'),sec=V('fc-sec');
+  const vals=[1,2,3,4,5,6].map(i=>parseFloat(V('fc-m'+i))).filter(v=>!isNaN(v));
+  if(vals.length<4){alert("Please enter at least 4 months of data.");return;}
+  const reg=linearRegression(vals);
+  const future=[7,8,9,10,11,12].map(i=>Math.max(0,reg.predict(i)));
+  const mean=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const variance=vals.reduce((a,b)=>a+(b-mean)**2,0)/vals.length;
+  const vol=Math.sqrt(variance)/mean*100;
+  const cur=vals[vals.length-1];
+  const pred3=future[2], pred6=future[5];
+  document.getElementById('fm1').textContent=cur.toLocaleString();
+  document.getElementById('fd1').textContent=unit;
+  document.getElementById('fm2').textContent=pred3.toFixed(0);
+  document.getElementById('fd2').textContent=(((pred3-cur)/cur)*100).toFixed(1)+'%';
+  document.getElementById('fd2').className='metric-delta '+(pred3>=cur?'delta-up':'delta-down');
+  document.getElementById('fm3').textContent=pred6.toFixed(0);
+  document.getElementById('fd3').textContent=(((pred6-cur)/cur)*100).toFixed(1)+'%';
+  document.getElementById('fd3').className='metric-delta '+(pred6>=cur?'delta-up':'delta-down');
+  document.getElementById('fm4').textContent=vol.toFixed(1)+'%';
+  document.getElementById('fd4').textContent=vol<5?'Low':vol<15?'Moderate':'High';
+  document.getElementById('fd4').className='metric-delta '+(vol<10?'delta-up':'delta-down');
+  document.getElementById('fc-chart-wrap').style.display='block';
+  drawChart(vals, future);
+
+  await streamToBox('fc-out',`You are analyzing 6 months of financial data with linear regression predictions.
+
+Asset/metric: ${asset||'Portfolio'} (${unit}, ${sec} sector)
+Historical values: ${vals.map((v,i)=>'M'+(i+1)+'='+v).join(', ')}
+Linear regression: slope=${reg.slope.toFixed(2)}, intercept=${reg.intercept.toFixed(2)}
+3-month forecast: ${pred3.toFixed(0)} (${(((pred3-cur)/cur)*100).toFixed(1)}% vs current)
+6-month forecast: ${pred6.toFixed(0)} (${(((pred6-cur)/cur)*100).toFixed(1)}% vs current)
+Volatility (coefficient of variation): ${vol.toFixed(1)}%
+
+Provide:
+1. TREND ANALYSIS — what the slope tells us
+2. VOLATILITY INTERPRETATION
+3. FORECAST CONFIDENCE — caveats and assumptions of linear regression
+4. MARKET DRIVERS — 3 factors that could validate or invalidate the forecast
+5. ACTIONABLE RECOMMENDATIONS — 4 bullets for the investor/firm
+6. RISK FLAGS — what to watch
+
+Be specific with numbers. End with disclaimer.`,'You are a quantitative finance analyst. Explain linear regression limitations, cite real market drivers, stay compliant.');
+}
+
+/* ==================== 07 PITCH DECK ==================== */
+function renderPitch(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 07 · Program 07</div>
+    <div class="page-title">Investor <em>Pitch Deck</em></div>
+    <div class="page-sub">Generate complete pitch, earnings, or IPO roadshow decks — slide by slide, with speaker notes.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Deck Configuration</div>
+    <div class="form-row">
+      <div class="form-group"><label>Company Name</label><input id="pd-co" placeholder="e.g. Azure FinTech Ltd." /></div>
+      <div class="form-group"><label>Deck Type</label>
+        <select id="pd-type">
+          <option value="seed">Seed / Series A Pitch</option>
+          <option value="growth">Growth Round (Series B+)</option>
+          <option value="earnings">Quarterly Earnings</option>
+          <option value="ipo">IPO Roadshow</option>
+          <option value="client">Institutional Client Pitch</option>
+          <option value="board">Board Update</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Audience</label><input id="pd-aud" placeholder="e.g. VCs, LPs, retail investors" /></div>
+      <div class="form-group"><label>Number of Slides</label>
+        <select id="pd-slides">
+          <option>8</option><option selected>12</option><option>16</option><option>20</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Funding Ask / Key Number</label><input id="pd-ask" placeholder="e.g. $5M Series A / Q3 revenue $12M" /></div>
+      <div class="form-group"><label>Sector</label>
+        <select id="pd-sec">
+          <option>FinTech / Payments</option>
+          <option>WealthTech</option>
+          <option>NeoBanking</option>
+          <option>InsurTech</option>
+          <option>LendingTech</option>
+          <option>Capital Markets</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Key Metrics / Traction</label><textarea id="pd-metrics" rows="2" placeholder="e.g. 250K users, ₹50Cr AUM, 18% MoM growth, 72 NPS, unit economics positive"></textarea></div>
+    <button class="btn btn-primary" onclick="genPitch()">◧ Generate Deck</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Slide Deck Script</div>
+    <div class="output-box" id="pd-out" style="color:var(--muted);font-style:italic">Enter details to generate your deck.</div>
+  </div>`;
+}
+async function genPitch() {
+  const co=V('pd-co'),type=V('pd-type'),aud=V('pd-aud'),slides=V('pd-slides'),ask=V('pd-ask'),sec=V('pd-sec'),metrics=V('pd-metrics');
+  if(!co){alert("Please enter company name.");return;}
+  await streamToBox('pd-out',`Create a complete ${type} deck for ${co} (${sec}).
+
+Format: ${slides} slides. For EACH slide provide:
+SLIDE [N] — [TITLE]
+• 3-4 bullet points (specific, numeric where possible)
+• SPEAKER NOTE: (1-2 sentences on how to deliver)
+
+Context:
+Audience: ${aud||'institutional investors'}
+Key ask/number: ${ask||'growth capital'}
+Traction: ${metrics||'solid product-market fit'}
+
+Slides to cover (adapt to deck type):
+Cover · Problem · Market Size (TAM/SAM/SOM) · Solution/Product · Business Model · Traction · Go-to-Market · Competition · Team · Financials/Projections · Funding Ask &amp; Use of Funds · Closing/CTA
+
+Make it sharp, investor-grade, and data-driven. End with a "Q&amp;A prep" slide with 3 anticipated investor questions + answers.`,'You are a top-tier investment banking pitch coach. Produce structured, persuasive, numeric content.');
+}
+
+/* ==================== 08 PRODUCT SEARCH ==================== */
+let searchMode='text', mediaRecorder, audioChunks=[], isRecording=false, uploadedImg=null;
+
+function renderSearch(m) {
+  m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 08 · Program 08</div>
+    <div class="page-title">AI <em>Product Search</em></div>
+    <div class="page-sub">Find the right financial product using text, voice, or image (snap a bill, statement, or competitor product).</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Search Mode</div>
+    <div class="search-tabs">
+      <div class="stab active" id="stab-text" onclick="setMode('text')">⌨ Text</div>
+      <div class="stab" id="stab-voice" onclick="setMode('voice')">🎙 Voice</div>
+      <div class="stab" id="stab-image" onclick="setMode('image')">🖼 Image</div>
+    </div>
+    <div id="search-input-area"></div>
+    <div class="form-group" style="margin-top:14px">
+      <label>Product Catalog</label>
+      <textarea id="s-catalog" rows="2" placeholder="Home Loan, Personal Loan, Credit Card Platinum, Health Insurance Family Plan, Term Life 1Cr, Mutual Fund SIP, Demat Account, Fixed Deposit, Gold ETF, PPF"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="doSearch()">⌖ Search with AI</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Matched Products</div>
+    <div class="output-box" id="s-out" style="color:var(--muted);font-style:italic">Enter a query above.</div>
+  </div>`;
+  setMode('text');
+}
+function setMode(mode){
+  searchMode=mode;
+  ['text','voice','image'].forEach(x=>document.getElementById('stab-'+x).classList.toggle('active',x===mode));
+  const area=document.getElementById('search-input-area');
+  if(mode==='text'){
+    area.innerHTML=`<div class="form-group"><label>What do you need?</label><input id="s-query" placeholder="e.g. I want ₹50L home loan, 20 year tenure, I'm a salaried IT professional earning ₹18L/year" /></div>`;
+  } else if(mode==='voice'){
+    area.innerHTML=`
+    <div style="text-align:center;padding:14px 0">
+      <div class="voice-ring" id="voice-ring" onclick="toggleRecord()">🎙</div>
+      <div style="font-size:11.5px;color:var(--muted)" id="voice-status">Click the mic to start recording</div>
+      <div style="font-size:11px;color:var(--gold);margin-top:6px" id="voice-transcript"></div>
+    </div>
+    <div class="form-group"><label>Or type transcript</label><input id="s-query" placeholder="Speak or type your query..." /></div>`;
+  } else {
+    area.innerHTML=`
+    <div class="img-drop" id="img-drop" onclick="document.getElementById('img-file').click()">
+      <div id="img-preview-area">
+        <div style="font-size:28px;margin-bottom:8px">🖼</div>
+        <div>Upload a bill, bank statement, or competitor screenshot</div>
+        <div style="font-size:10.5px;margin-top:4px;opacity:.6">AI will identify relevant financial products</div>
+      </div>
+    </div>
+    <input type="file" id="img-file" accept="image/*" style="display:none" onchange="handleImg(event)"/>
+    <div class="form-group" style="margin-top:12px"><label>Additional context (optional)</label><input id="s-query" placeholder="e.g. Looking for lower-cost alternative" /></div>`;
+  }
+}
+async function toggleRecord(){
+  if(!isRecording){
+    try{
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      mediaRecorder=new MediaRecorder(stream);
+      audioChunks=[];
+      mediaRecorder.ondataavailable=e=>audioChunks.push(e.data);
+      mediaRecorder.onstop=()=>{
+        document.getElementById('voice-status').textContent='Recording saved. Type what you said below, then Search.';
+        stream.getTracks().forEach(t=>t.stop());
+      };
+      mediaRecorder.start();
+      isRecording=true;
+      document.getElementById('voice-ring').classList.add('recording');
+      document.getElementById('voice-status').textContent='Recording... click mic again to stop';
+    } catch(e){
+      document.getElementById('voice-status').textContent='Mic access denied. Use text fallback below.';
+    }
+  } else {
+    mediaRecorder.stop();
+    isRecording=false;
+    document.getElementById('voice-ring').classList.remove('recording');
+  }
+}
+function handleImg(e){
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    uploadedImg=ev.target.result;
+    const drop=document.getElementById('img-drop');
+    drop.className='img-drop has-image';
+    document.getElementById('img-preview-area').innerHTML=`<img src="${uploadedImg}" /><div style="font-size:11.5px;color:var(--gold)">${file.name} — ready for analysis</div>`;
+  };
+  reader.readAsDataURL(file);
+}
+async function doSearch(){
+  const query=V('s-query')||'';
+  const catalog=V('s-catalog')||'Home Loan, Personal Loan, Credit Card, Health Insurance, Term Life, Mutual Fund SIP, Fixed Deposit';
+
+  if(searchMode==='image' && uploadedImg){
+    const box=document.getElementById('s-out');
+    box.innerHTML='<span class="spin"></span> &nbsp; Analyzing image with AI...';
+    box.className='output-box loading';
+    try{
+      const base64=uploadedImg.split(',')[1];
+      const mime=uploadedImg.split(';')[0].split(':')[1];
+      const resp=await fetch(API,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:1200,
+          messages:[{role:'user',content:[
+            {type:'image',source:{type:'base64',media_type:mime,data:base64}},
+            {type:'text',text:`Analyze this image (likely a bill, bank statement, card, or competitor financial product). Then recommend matching products from this catalog: ${catalog}.
+
+Provide:
+1. WHAT I SEE — what the image shows (amount, type, issuer if visible)
+2. INFERRED NEED — what financial product would help this user
+3. TOP 3 MATCHES from the catalog with relevance score (/10) and reasoning
+4. NEXT STEPS — what the advisor/user should do
+${query?'\nAdditional context: '+query:''}`}
+          ]}]
+        })
+      });
+      const data=await resp.json();
+      if(data.error) throw new Error(data.error.message);
+      box.className='output-box';
+      box.textContent=data.content[0].text;
+    } catch(e){
+      document.getElementById('s-out').textContent='Error: '+e.message;
+    }
+    return;
+  }
+
+  if(!query){alert("Please enter a search query.");return;}
+  await streamToBox('s-out',`A customer is searching: "${query}"
+
+Product catalog: ${catalog}
+
+Provide:
+1. SEARCH RESULTS — top 3-5 matches with relevance score (/10)
+2. WHY EACH MATCHES — brief rationale per product
+3. BEST RECOMMENDATION — top pick with full details (eligibility, indicative rate, key feature)
+4. RELATED / CROSS-SELL — 2 additional products they might need
+5. NEXT STEPS
+
+End with "*T&amp;C apply. Subject to eligibility and credit approval." disclaimer.`,'You are an intelligent financial product search engine. Match queries to products, stay compliant, include standard disclaimers.');
+}
+
+render(0);
+</script>
+</body>
+</html>

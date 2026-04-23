@@ -1,0 +1,1405 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap");
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #0d0f14;
+        --bg2: #131620;
+        --bg3: #1a1d27;
+        --bg4: #20243300;
+        --teal: #00d4aa;
+        --teal2: #00a884;
+        --tealfade: rgba(0, 212, 170, 0.1);
+        --amber: #f59e0b;
+        --amberfade: rgba(245, 158, 11, 0.1);
+        --text: #e8eaf0;
+        --muted: #7a7f94;
+        --border: rgba(255, 255, 255, 0.07);
+        --font-head: "Syne", sans-serif;
+        --font-mono: "DM Mono", monospace;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-mono);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HEADER */
+      .hdr {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 20px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg2);
+      }
+      .logo-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--teal);
+        box-shadow: 0 0 8px var(--teal);
+      }
+      .hdr-title {
+        font-family: var(--font-head);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        color: var(--text);
+      }
+      .hdr-title span {
+        color: var(--teal);
+      }
+      .hdr-badge {
+        margin-left: auto;
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 20px;
+        border: 1px solid var(--teal2);
+        color: var(--teal);
+        letter-spacing: 0.08em;
+      }
+
+      /* LAYOUT */
+      .layout {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+        height: calc(100vh - 49px);
+      }
+
+      /* SIDEBAR */
+      .sidebar {
+        width: 210px;
+        min-width: 210px;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0;
+        overflow-y: auto;
+      }
+      .nav-section {
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        padding: 14px 16px 6px;
+        text-transform: uppercase;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 16px;
+        cursor: pointer;
+        font-size: 11.5px;
+        color: var(--muted);
+        transition: all 0.15s;
+        border-left: 2px solid transparent;
+        letter-spacing: 0.02em;
+      }
+      .nav-item:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .nav-item.active {
+        color: var(--teal);
+        background: var(--tealfade);
+        border-left-color: var(--teal);
+      }
+      .nav-icon {
+        font-size: 13px;
+        width: 18px;
+        text-align: center;
+      }
+      .nav-num {
+        margin-left: auto;
+        font-size: 9px;
+        color: var(--muted);
+        opacity: 0.5;
+      }
+
+      /* MAIN */
+      .main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 24px;
+        background: var(--bg);
+      }
+
+      /* PAGE HEADER */
+      .page-hdr {
+        margin-bottom: 22px;
+      }
+      .page-tag {
+        font-size: 9px;
+        letter-spacing: 0.14em;
+        color: var(--teal);
+        text-transform: uppercase;
+        margin-bottom: 6px;
+      }
+      .page-title {
+        font-family: var(--font-head);
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text);
+        line-height: 1.2;
+      }
+      .page-sub {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 5px;
+        line-height: 1.5;
+      }
+
+      /* CARD */
+      .card {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 18px;
+        margin-bottom: 14px;
+      }
+      .card-title {
+        font-family: var(--font-head);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      }
+
+      /* FORM ELEMENTS */
+      input,
+      textarea,
+      select {
+        width: 100%;
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 9px 12px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--text);
+        outline: none;
+        transition: border-color 0.15s;
+        resize: vertical;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--teal2);
+      }
+      label {
+        font-size: 11px;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 5px;
+        letter-spacing: 0.03em;
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .form-group {
+        margin-bottom: 12px;
+      }
+      select option {
+        background: #1a1d27;
+      }
+
+      /* BUTTON */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 18px;
+        border-radius: 7px;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        transition: all 0.15s;
+        letter-spacing: 0.03em;
+      }
+      .btn-primary {
+        background: var(--teal);
+        color: #0d0f14;
+      }
+      .btn-primary:hover {
+        background: var(--teal2);
+      }
+      .btn-primary:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .btn-ghost {
+        background: transparent;
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+      .btn-ghost:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .btn-amber {
+        background: var(--amberfade);
+        color: var(--amber);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+
+      /* OUTPUT BOX */
+      .output-box {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        font-size: 12px;
+        line-height: 1.8;
+        color: var(--text);
+        min-height: 120px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        border-left: 3px solid var(--teal);
+      }
+      .output-box.loading {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .output-box .section-head {
+        color: var(--teal);
+        font-weight: 500;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 2px;
+      }
+
+      /* TAGS */
+      .tag {
+        display: inline-block;
+        padding: 3px 9px;
+        border-radius: 20px;
+        font-size: 10px;
+        letter-spacing: 0.05em;
+        margin: 3px 3px 3px 0;
+      }
+      .tag-teal {
+        background: var(--tealfade);
+        color: var(--teal);
+        border: 1px solid rgba(0, 212, 170, 0.2);
+      }
+      .tag-amber {
+        background: var(--amberfade);
+        color: var(--amber);
+        border: 1px solid rgba(245, 158, 11, 0.2);
+      }
+      .tag-muted {
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--muted);
+        border: 1px solid var(--border);
+      }
+
+      /* AD CARDS */
+      .ad-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .ad-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 9px;
+        padding: 14px;
+        position: relative;
+        overflow: hidden;
+      }
+      .ad-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+      }
+      .ad-card.type-search::before {
+        background: var(--teal);
+      }
+      .ad-card.type-social::before {
+        background: var(--amber);
+      }
+      .ad-card.type-display::before {
+        background: #818cf8;
+      }
+      .ad-card.type-video::before {
+        background: #f472b6;
+      }
+      .ad-type-badge {
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .ad-headline {
+        font-family: var(--font-head);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 5px;
+        line-height: 1.3;
+      }
+      .ad-body {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+      .ad-cta {
+        font-size: 10px;
+        color: var(--teal);
+        letter-spacing: 0.05em;
+        cursor: pointer;
+      }
+      .ad-meta {
+        display: flex;
+        gap: 8px;
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--border);
+      }
+      .ad-stat {
+        font-size: 10px;
+        color: var(--muted);
+      }
+      .ad-stat span {
+        color: var(--text);
+      }
+
+      /* ANALYTICS */
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .metric-card {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+        text-align: center;
+      }
+      .metric-val {
+        font-family: var(--font-head);
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--teal);
+      }
+      .metric-label {
+        font-size: 10px;
+        color: var(--muted);
+        margin-top: 3px;
+        letter-spacing: 0.05em;
+      }
+      .metric-delta {
+        font-size: 10px;
+        margin-top: 4px;
+      }
+      .delta-up {
+        color: #34d399;
+      }
+      .delta-down {
+        color: #f87171;
+      }
+
+      /* PROGRESS BAR */
+      .prog-bar {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 4px;
+        height: 4px;
+        margin-top: 6px;
+      }
+      .prog-fill {
+        height: 4px;
+        border-radius: 4px;
+        background: var(--teal);
+        transition: width 0.6s ease;
+      }
+
+      /* SEARCH MODES */
+      .search-tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 14px;
+      }
+      .stab {
+        padding: 7px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        transition: all 0.15s;
+        font-family: var(--font-mono);
+      }
+      .stab.active {
+        background: var(--teal);
+        color: #0d0f14;
+        border-color: var(--teal);
+      }
+
+      /* VOICE */
+      .voice-ring {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 2px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin: 0 auto 14px;
+        transition: all 0.2s;
+        font-size: 24px;
+      }
+      .voice-ring:hover,
+      .voice-ring.recording {
+        border-color: var(--teal);
+        background: var(--tealfade);
+      }
+      .voice-ring.recording {
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 12px rgba(0, 212, 170, 0);
+        }
+      }
+
+      /* IMAGE DROP */
+      .img-drop {
+        border: 2px dashed var(--border);
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .img-drop:hover {
+        border-color: var(--teal2);
+        background: var(--tealfade);
+      }
+      .img-drop.has-image {
+        border-color: var(--teal);
+        border-style: solid;
+      }
+      .img-drop img {
+        max-height: 150px;
+        max-width: 100%;
+        border-radius: 6px;
+        display: block;
+        margin: 0 auto 10px;
+      }
+
+      /* DIVIDER */
+      hr {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 14px 0;
+      }
+
+      /* SCROLLBAR */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+      }
+
+      /* SPINNER */
+      .spin {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border: 2px solid rgba(0, 212, 170, 0.3);
+        border-top-color: var(--teal);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* TOOLTIP WRAP */
+      .info-chip {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        letter-spacing: 0.05em;
+        border: 1px solid;
+        background: transparent;
+      }
+      .chip-teal {
+        color: var(--teal);
+        border-color: rgba(0, 212, 170, 0.25);
+      }
+      .chip-amber {
+        color: var(--amber);
+        border-color: rgba(245, 158, 11, 0.25);
+      }
+
+      /* HOME GRID */
+      .home-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .home-tile {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .home-tile:hover {
+        border-color: var(--teal2);
+        background: rgba(0, 212, 170, 0.04);
+        transform: translateY(-1px);
+      }
+      .home-tile-icon {
+        font-size: 20px;
+        margin-bottom: 8px;
+      }
+      .home-tile-name {
+        font-family: var(--font-head);
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 4px;
+      }
+      .home-tile-desc {
+        font-size: 10px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .home-tile-num {
+        font-size: 9px;
+        color: var(--teal);
+        letter-spacing: 0.1em;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hdr">
+      <div class="logo-dot"></div>
+      <div class="hdr-title">AI <span>Marketing</span> Assistant</div>
+    </div>
+
+    <div class="layout">
+      <div class="sidebar">
+        <div class="nav-section">Modules</div>
+        <div class="nav-item active" onclick="nav(0)">
+          <span class="nav-icon">⊞</span>Dashboard<span class="nav-num"
+            >HOME</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(1)">
+          <span class="nav-icon">✦</span>Content Generator<span class="nav-num"
+            >01</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(2)">
+          <span class="nav-icon">✉</span>Email Marketing<span class="nav-num"
+            >02</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(3)">
+          <span class="nav-icon">◈</span>Recommendations<span class="nav-num"
+            >03</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(4)">
+          <span class="nav-icon">◉</span>Targeted Ads<span class="nav-num"
+            >04</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(5)">
+          <span class="nav-icon">▲</span>Analytics<span class="nav-num"
+            >05</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(6)">
+          <span class="nav-icon">◧</span>PR Presentation<span class="nav-num"
+            >06</span
+          >
+        </div>
+        <div class="nav-item" onclick="nav(7)">
+          <span class="nav-icon">⌖</span>AI Product Search<span class="nav-num"
+            >07</span
+          >
+        </div>
+        <div style="margin-top: auto; padding: 14px 16px">
+          <div style="font-size: 10px; color: var(--muted); line-height: 1.6">
+            AI Digital Marketing<br />Automation Tool<br />
+            <span style="color: var(--teal)">v1.0.0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="main" id="main-area"></div>
+    </div>
+
+    <script>
+      const API = "https://api.anthropic.com/v1/messages";
+      let activeModule = 0;
+
+      async function callClaude(prompt, systemMsg) {
+        const sys =
+          systemMsg ||
+          "You are an expert AI digital marketing assistant. Be concise, practical, and professional. Format responses clearly with sections when appropriate.";
+        const resp = await fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 1000,
+            system: sys,
+            messages: [{ role: "user", content: prompt }],
+          }),
+        });
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error.message);
+        return data.content[0].text;
+      }
+
+      async function streamToBox(boxId, prompt, systemMsg) {
+        const box = document.getElementById(boxId);
+        box.textContent = "";
+        box.className = "output-box loading";
+        box.innerHTML = '<span class="spin"></span>  Generating with AI...';
+        try {
+          const text = await callClaude(prompt, systemMsg);
+          box.className = "output-box";
+          box.textContent = text;
+        } catch (e) {
+          box.className = "output-box";
+          box.textContent = "Error: " + e.message;
+        }
+      }
+
+      function nav(n) {
+        activeModule = n;
+        document
+          .querySelectorAll(".nav-item")
+          .forEach((el, i) => el.classList.toggle("active", i === n));
+        render(n);
+      }
+
+      function render(n) {
+        const m = document.getElementById("main-area");
+        const pages = [
+          renderHome,
+          renderContent,
+          renderEmail,
+          renderRec,
+          renderAds,
+          renderAnalytics,
+          renderPR,
+          renderSearch,
+        ];
+        m.innerHTML = "";
+        pages[n] && pages[n](m);
+      }
+
+      // --- HOME ---
+      function renderHome(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Dashboard</div>
+    <div class="page-title">AI Marketing Command Center</div>
+    <div class="page-sub">Select a module below to start automating your digital marketing with AI.</div>
+  </div>
+  <div class="home-grid">
+    ${[
+      [
+        "01",
+        "✦",
+        "Content Generator",
+        "Generate website copy, blog titles & SEO keywords instantly.",
+      ],
+      [
+        "02",
+        "✉",
+        "Email Marketing",
+        "AI-crafted personalized marketing emails for any campaign.",
+      ],
+      [
+        "03",
+        "◈",
+        "Recommendation Engine",
+        "Smart service recommendations based on customer interests.",
+      ],
+      [
+        "04",
+        "◉",
+        "Targeted Ads",
+        "Programmatic ad copy for search, social & display channels.",
+      ],
+      [
+        "05",
+        "▲",
+        "Analytics Dashboard",
+        "Traffic predictions & performance metrics visualized.",
+      ],
+      [
+        "06",
+        "◧",
+        "PR Presentation",
+        "Auto-generate marketing presentations & pitch decks.",
+      ],
+      [
+        "07",
+        "⌖",
+        "AI Product Search",
+        "Search products by text, voice command or image upload.",
+      ],
+    ]
+      .map(
+        ([num, icon, name, desc], i) => `
+      <div class="home-tile" onclick="nav(${i + 1})">
+        <div class="home-tile-num">MODULE ${num}</div>
+        <div class="home-tile-icon">${icon}</div>
+        <div class="home-tile-name">${name}</div>
+        <div class="home-tile-desc">${desc}</div>
+      </div>
+    `,
+      )
+      .join("")}
+    <div class="home-tile" style="border-style:dashed;cursor:default;opacity:.5">
+      <div class="home-tile-icon" style="font-size:16px">+</div>
+      <div class="home-tile-name" style="font-size:12px">More coming soon</div>
+      <div class="home-tile-desc">Additional AI modules in development.</div>
+    </div>
+  </div>`;
+      }
+
+      // --- 01 CONTENT GENERATOR ---
+      function renderContent(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 01</div>
+    <div class="page-title">Content Generator</div>
+    <div class="page-sub">Generate website content, blog titles, and SEO keywords.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Business Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Business Name</label><input id="c-biz" placeholder="e.g. TechBoost Agency" /></div>
+      <div class="form-group"><label>Industry</label><input id="c-ind" placeholder="e.g. Digital Marketing" /></div>
+    </div>
+    <div class="form-group"><label>Services (comma-separated)</label><input id="c-svc" placeholder="e.g. SEO, PPC Ads, Social Media, Content Marketing" /></div>
+    <div class="form-group"><label>Target Audience</label><input id="c-aud" placeholder="e.g. Small businesses, Startups, E-commerce brands" /></div>
+    <div class="form-group"><label>Content Type</label>
+      <select id="c-type">
+        <option value="website">Website Homepage Content</option>
+        <option value="blog">Blog Post Titles (10 ideas)</option>
+        <option value="seo">SEO Keywords & Meta Description</option>
+        <option value="all">Full Package (All of the above)</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="genContent()"><span class="spin" id="c-spin" style="display:none"></span>✦ Generate Content</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Generated Output</div>
+    <div class="output-box" id="c-out" style="color:var(--muted);font-style:italic">Fill in details above and click Generate.</div>
+  </div>`;
+      }
+      async function genContent() {
+        const biz = V("c-biz"),
+          ind = V("c-ind"),
+          svc = V("c-svc"),
+          aud = V("c-aud"),
+          type = V("c-type");
+        if (!biz) {
+          alert("Please enter a business name.");
+          return;
+        }
+        const types = {
+          website:
+            "professional homepage content with hero heading, tagline, about section, services overview, and CTA",
+          blog: "10 compelling blog post titles with brief 1-line descriptions",
+          seo: "15 SEO keywords with search intent labels + a 160-char meta description",
+          all: "homepage content, 5 blog title ideas, and 10 SEO keywords",
+        };
+        await streamToBox(
+          "c-out",
+          `Generate ${types[type]} for:
+Business: ${biz}
+Industry: ${ind || "Not specified"}
+Services: ${svc || "General marketing services"}
+Target audience: ${aud || "Business owners"}
+Make it professional, engaging, and conversion-focused.`,
+        );
+      }
+
+      // --- 02 EMAIL MARKETING ---
+      function renderEmail(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 02</div>
+    <div class="page-title">Smart Email Marketing</div>
+    <div class="page-sub">Generate personalized marketing emails and campaign sequences with AI.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Email Configuration</div>
+    <div class="form-row">
+      <div class="form-group"><label>Campaign Type</label>
+        <select id="e-type">
+          <option value="promo">Promotional Offer</option>
+          <option value="welcome">Welcome Series</option>
+          <option value="nurture">Lead Nurturing</option>
+          <option value="reengagement">Re-engagement</option>
+          <option value="newsletter">Monthly Newsletter</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Industry / Business</label><input id="e-biz" placeholder="e.g. TechBoost Digital Agency" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Customer Name (or segment)</label><input id="e-name" placeholder="e.g. John / Small Business Owners" /></div>
+      <div class="form-group"><label>Key Offer / Topic</label><input id="e-offer" placeholder="e.g. 30% off SEO package this month" /></div>
+    </div>
+    <div class="form-group"><label>Tone</label>
+      <select id="e-tone">
+        <option value="professional">Professional & Formal</option>
+        <option value="friendly">Friendly & Conversational</option>
+        <option value="urgent">Urgent & Action-Oriented</option>
+        <option value="storytelling">Storytelling</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="genEmail()">✉ Generate Email</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Generated Email</div>
+    <div class="output-box" id="e-out" style="color:var(--muted);font-style:italic">Configure options above and generate.</div>
+  </div>`;
+      }
+      async function genEmail() {
+        const type = V("e-type"),
+          biz = V("e-biz"),
+          name = V("e-name"),
+          offer = V("e-offer"),
+          tone = V("e-tone");
+        if (!biz) {
+          alert("Please enter business name.");
+          return;
+        }
+        await streamToBox(
+          "e-out",
+          `Write a complete ${type} email for:
+Business: ${biz}
+Recipient: ${name || "Valued Customer"}
+Key offer/topic: ${offer || "Our premium services"}
+Tone: ${tone}
+Include: subject line, preheader, greeting, body (2-3 paragraphs), CTA button text, sign-off.
+Format clearly with labels for each section.`,
+        );
+      }
+
+      // --- 03 RECOMMENDATIONS ---
+      function renderRec(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 03</div>
+    <div class="page-title">Recommendation Engine</div>
+    <div class="page-sub">AI-powered service recommendations + personalized outreach based on customer interest.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Customer Profile</div>
+    <div class="form-row">
+      <div class="form-group"><label>Customer Name</label><input id="r-name" placeholder="e.g. Sarah Johnson" /></div>
+      <div class="form-group"><label>Business Type</label><input id="r-btype" placeholder="e.g. E-commerce startup" /></div>
+    </div>
+    <div class="form-group"><label>Stated Interest / Pain Point</label><input id="r-interest" placeholder="e.g. We struggle with organic search traffic and want more leads" /></div>
+    <div class="form-group"><label>Budget Range</label>
+      <select id="r-budget">
+        <option value="starter">Starter ($500–$1,500/mo)</option>
+        <option value="growth">Growth ($1,500–$5,000/mo)</option>
+        <option value="enterprise">Enterprise ($5,000+/mo)</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Available Services (your agency offers)</label><textarea id="r-services" rows="2" placeholder="SEO, PPC, Social Media, Content Marketing, Email Marketing, Web Design, Analytics"></textarea></div>
+    <button class="btn btn-primary" onclick="genRec()">◈ Generate Recommendations</button>
+  </div>
+  <div class="card">
+    <div class="card-title">AI Recommendations + Personalized Email</div>
+    <div class="output-box" id="r-out" style="color:var(--muted);font-style:italic">Enter customer details above.</div>
+  </div>`;
+      }
+      async function genRec() {
+        const name = V("r-name"),
+          btype = V("r-btype"),
+          interest = V("r-interest"),
+          budget = V("r-budget"),
+          services = V("r-services");
+        if (!interest) {
+          alert("Please describe the customer's interest.");
+          return;
+        }
+        await streamToBox(
+          "r-out",
+          `A customer wants recommendations. Provide:
+1. TOP 3 RECOMMENDED SERVICES with reasoning (ranked by fit)
+2. WHY each service fits their specific situation
+3. A SHORT PERSONALIZED EMAIL to send them
+
+Customer: ${name || "Prospect"}
+Business: ${btype || "Not specified"}
+Pain point: ${interest}
+Budget: ${budget}
+Our services: ${services || "SEO, PPC, Social Media, Content, Email Marketing"}
+
+Be specific and compelling.`,
+        );
+      }
+
+      // --- 04 TARGETED ADS ---
+      function renderAds(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 04</div>
+    <div class="page-title">Programmatic Advertising</div>
+    <div class="page-sub">Generate targeted ad copy across channels — search, social, display & video.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Campaign Setup</div>
+    <div class="form-row">
+      <div class="form-group"><label>Product / Service</label><input id="a-prod" placeholder="e.g. SEO Growth Package" /></div>
+      <div class="form-group"><label>Target Audience</label><input id="a-aud" placeholder="e.g. Small business owners, 25-45" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Unique Value Proposition</label><input id="a-uvp" placeholder="e.g. Get to page 1 of Google in 90 days" /></div>
+      <div class="form-group"><label>Call-to-Action</label><input id="a-cta" placeholder="e.g. Get Free Audit / Start Today" /></div>
+    </div>
+    <div class="form-group"><label>Ad Channels</label>
+      <select id="a-chan">
+        <option value="all">All Channels (Search + Social + Display + Video)</option>
+        <option value="search">Google Search Ads</option>
+        <option value="social">Social Media Ads (Facebook/Instagram/LinkedIn)</option>
+        <option value="display">Display / Banner Ads</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="genAds()">◉ Generate Ad Copy</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Generated Ad Campaigns</div>
+    <div class="output-box" id="a-out" style="color:var(--muted);font-style:italic">Fill in campaign details and generate.</div>
+  </div>`;
+      }
+      async function genAds() {
+        const prod = V("a-prod"),
+          aud = V("a-aud"),
+          uvp = V("a-uvp"),
+          cta = V("a-cta"),
+          chan = V("a-chan");
+        if (!prod) {
+          alert("Please enter a product/service name.");
+          return;
+        }
+        const chanMap = {
+          all: "Google Search (3 variations), Facebook/Instagram (2 variations), LinkedIn (1 variation), and Display Banner (2 variations)",
+          search:
+            "Google Search ads (5 variations with headlines and descriptions)",
+          social:
+            "Facebook/Instagram ads (3 variations) and LinkedIn ads (2 variations)",
+          display: "Display banner ads in 3 sizes with copy",
+        };
+        await streamToBox(
+          "a-out",
+          `Create targeted ad copy for ${chanMap[chan]}:
+Product/Service: ${prod}
+Target audience: ${aud || "Business owners"}
+Unique value: ${uvp || "Premium quality and results"}
+CTA: ${cta || "Learn More"}
+Format each ad clearly with CHANNEL, HEADLINE, BODY, and CTA. Include character counts for search ads. Make them compelling and conversion-focused.`,
+        );
+      }
+
+      // --- 05 ANALYTICS ---
+      function renderAnalytics(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 05</div>
+    <div class="page-title">Analytics & Traffic Prediction</div>
+    <div class="page-sub">Analyze current metrics and get AI-powered traffic forecasts and insights.</div>
+  </div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="metric-val" id="mv1">—</div><div class="metric-label">Monthly Visitors</div><div class="metric-delta delta-up" id="md1"></div></div>
+    <div class="metric-card"><div class="metric-val" id="mv2">—</div><div class="metric-label">Conversion Rate</div><div class="metric-delta" id="md2"></div></div>
+    <div class="metric-card"><div class="metric-val" id="mv3">—</div><div class="metric-label">Predicted Next Mo.</div><div class="metric-delta delta-up" id="md3"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Enter Website Metrics</div>
+    <div class="form-row">
+      <div class="form-group"><label>Monthly Visitors</label><input id="an-vis" type="number" placeholder="e.g. 12500" /></div>
+      <div class="form-group"><label>Bounce Rate (%)</label><input id="an-bounce" type="number" placeholder="e.g. 45" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Avg. Session Duration (mins)</label><input id="an-dur" type="number" step="0.1" placeholder="e.g. 2.5" /></div>
+      <div class="form-group"><label>Conversion Rate (%)</label><input id="an-conv" type="number" step="0.1" placeholder="e.g. 3.2" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Top Traffic Source</label>
+        <select id="an-src">
+          <option>Organic Search</option><option>Paid Ads</option><option>Social Media</option>
+          <option>Email</option><option>Direct</option><option>Referral</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Industry</label><input id="an-ind" placeholder="e.g. Digital Marketing Agency" /></div>
+    </div>
+    <button class="btn btn-primary" onclick="genAnalytics()">▲ Analyze & Predict</button>
+  </div>
+  <div class="card">
+    <div class="card-title">AI Analysis & Predictions</div>
+    <div class="output-box" id="an-out" style="color:var(--muted);font-style:italic">Enter metrics above for AI analysis.</div>
+  </div>`;
+      }
+      async function genAnalytics() {
+        const vis = V("an-vis"),
+          bounce = V("an-bounce"),
+          dur = V("an-dur"),
+          conv = V("an-conv"),
+          src = V("an-src"),
+          ind = V("an-ind");
+        if (!vis) {
+          alert("Please enter monthly visitors.");
+          return;
+        }
+        const v = parseInt(vis) || 0,
+          c = parseFloat(conv) || 0;
+        document.getElementById("mv1").textContent = Number(v).toLocaleString();
+        document.getElementById("md1").textContent = "This month";
+        document.getElementById("mv2").textContent = c + "%";
+        document.getElementById("md2").className =
+          "metric-delta " + (c > 3 ? "delta-up" : "delta-down");
+        document.getElementById("md2").textContent =
+          c > 3 ? "Above avg" : "Below avg";
+        await streamToBox(
+          "an-out",
+          `Analyze these website metrics and provide:
+1. PERFORMANCE ANALYSIS — what the numbers mean
+2. KEY ISSUES & OPPORTUNITIES (bullet list)
+3. TRAFFIC PREDICTION for next 3 months (give specific numbers)
+4. TOP 5 ACTIONABLE RECOMMENDATIONS ranked by impact
+
+Metrics:
+Monthly visitors: ${vis}
+Bounce rate: ${bounce || "unknown"}%
+Session duration: ${dur || "unknown"} mins
+Conversion rate: ${conv || "unknown"}%
+Top source: ${src}
+Industry: ${ind || "not specified"}
+Be specific with predictions and numbers.`,
+          "You are an expert web analytics consultant. Provide data-driven analysis with specific numbers and actionable recommendations.",
+        );
+        const pred = Math.round((parseInt(vis) || 0) * 1.15);
+        document.getElementById("mv3").textContent = pred.toLocaleString();
+        document.getElementById("md3").textContent = "+15% est.";
+      }
+
+      // --- 06 PR PRESENTATION ---
+      function renderPR(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 06</div>
+    <div class="page-title">PR Presentation Generator</div>
+    <div class="page-sub">Generate complete marketing presentations and pitch decks with AI.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Presentation Details</div>
+    <div class="form-row">
+      <div class="form-group"><label>Company / Agency Name</label><input id="pr-co" placeholder="e.g. TechBoost Agency" /></div>
+      <div class="form-group"><label>Presentation Type</label>
+        <select id="pr-type">
+          <option value="pitch">Client Pitch Deck</option>
+          <option value="campaign">Campaign Results Report</option>
+          <option value="proposal">Marketing Proposal</option>
+          <option value="brand">Brand Story Presentation</option>
+          <option value="investor">Investor Deck</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Target Audience for Presentation</label><input id="pr-aud" placeholder="e.g. Potential clients, C-suite executives" /></div>
+      <div class="form-group"><label>Number of Slides</label>
+        <select id="pr-slides">
+          <option value="8">8 Slides (Quick Pitch)</option>
+          <option value="12" selected>12 Slides (Standard)</option>
+          <option value="16">16 Slides (Detailed)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Key Message / Goal</label><textarea id="pr-msg" rows="2" placeholder="e.g. Convince e-commerce brands to invest in our SEO + paid ads combo package to triple their ROI in 6 months"></textarea></div>
+    <div class="form-group"><label>Key Data Points / Achievements (optional)</label><input id="pr-data" placeholder="e.g. 200+ clients, avg 3x ROI, 5 years experience, Award-winning team" /></div>
+    <button class="btn btn-primary" onclick="genPR()">◧ Generate Presentation</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Presentation Script & Slide Content</div>
+    <div class="output-box" id="pr-out" style="color:var(--muted);font-style:italic">Enter details above to generate your presentation.</div>
+  </div>`;
+      }
+      async function genPR() {
+        const co = V("pr-co"),
+          type = V("pr-type"),
+          aud = V("pr-aud"),
+          slides = V("pr-slides"),
+          msg = V("pr-msg"),
+          data = V("pr-data");
+        if (!co) {
+          alert("Please enter your company name.");
+          return;
+        }
+        await streamToBox(
+          "pr-out",
+          `Create a complete ${type} for ${co}.
+Format as ${slides} slides. For each slide provide:
+SLIDE [N] — [TITLE]
+• Key bullet points (3-4 per slide)
+• Speaker note (1-2 sentences)
+
+Details:
+Target audience: ${aud || "Business decision makers"}
+Core message/goal: ${msg || "Showcase our marketing services"}
+Key achievements: ${data || "Experienced team, proven results"}
+
+Types to cover: Cover, Problem, Solution, Services/Product, Case Study, Process, Pricing/ROI, Team, Testimonials, CTA/Next Steps.
+Make it compelling and structured for a ${type}.`,
+          "You are an expert presentation designer and marketing strategist. Create structured, persuasive presentation content.",
+        );
+      }
+
+      // --- 07 AI PRODUCT SEARCH ---
+      let searchMode = "text";
+      let mediaRecorder,
+        audioChunks = [],
+        isRecording = false;
+      let uploadedImg = null;
+
+      function renderSearch(m) {
+        m.innerHTML = `
+  <div class="page-hdr">
+    <div class="page-tag">Module 07</div>
+    <div class="page-title">AI Product Search</div>
+    <div class="page-sub">Search products and services using text, voice, or image upload.</div>
+  </div>
+  <div class="card">
+    <div class="card-title">Search Mode</div>
+    <div class="search-tabs">
+      <div class="stab active" id="stab-text" onclick="setMode('text')">⌨ Text</div>
+      <div class="stab" id="stab-voice" onclick="setMode('voice')">🎙 Voice</div>
+      <div class="stab" id="stab-image" onclick="setMode('image')">🖼 Image</div>
+    </div>
+    <div id="search-input-area"></div>
+    <div class="form-group" style="margin-top:12px">
+      <label>Product Catalog / Services (what you offer)</label>
+      <textarea id="s-catalog" rows="2" placeholder="SEO Package, PPC Management, Social Media Marketing, Content Creation, Email Marketing, Web Design, Analytics Dashboard, Brand Strategy"></textarea>
+    </div>
+    <button class="btn btn-primary" id="s-btn" onclick="doSearch()">⌖ Search with AI</button>
+  </div>
+  <div class="card">
+    <div class="card-title">Search Results</div>
+    <div class="output-box" id="s-out" style="color:var(--muted);font-style:italic">Enter a search query above.</div>
+  </div>`;
+        setMode("text");
+      }
+
+      function setMode(mode) {
+        searchMode = mode;
+        ["text", "voice", "image"].forEach((m) => {
+          document
+            .getElementById("stab-" + m)
+            .classList.toggle("active", m === mode);
+        });
+        const area = document.getElementById("search-input-area");
+        if (mode === "text") {
+          area.innerHTML = `<div class="form-group"><label>What are you looking for?</label><input id="s-query" placeholder="e.g. I need help improving my Google rankings and getting more organic traffic" /></div>`;
+        } else if (mode === "voice") {
+          area.innerHTML = `
+    <div style="text-align:center;padding:10px 0">
+      <div class="voice-ring" id="voice-ring" onclick="toggleRecord()">🎙</div>
+      <div style="font-size:11px;color:var(--muted)" id="voice-status">Click the mic to start recording</div>
+      <div style="font-size:11px;color:var(--teal);margin-top:6px" id="voice-transcript"></div>
+    </div>
+    <div class="form-group"><label>Or type voice transcript here</label><input id="s-query" placeholder="Speak or type your search query..." /></div>`;
+        } else {
+          area.innerHTML = `
+    <div class="img-drop" id="img-drop" onclick="document.getElementById('img-file').click()">
+      <div id="img-preview-area">
+        <div style="font-size:24px;margin-bottom:8px">🖼</div>
+        <div>Click to upload product image or screenshot</div>
+        <div style="font-size:10px;margin-top:4px;opacity:.6">PNG, JPG, GIF supported</div>
+      </div>
+    </div>
+    <input type="file" id="img-file" accept="image/*" style="display:none" onchange="handleImg(event)"/>
+    <div class="form-group" style="margin-top:10px"><label>Additional context (optional)</label><input id="s-query" placeholder="Describe what you're looking for..." /></div>`;
+        }
+      }
+
+      async function toggleRecord() {
+        if (!isRecording) {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({
+              audio: true,
+            });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+            mediaRecorder.onstop = () => {
+              document.getElementById("voice-status").textContent =
+                "Recording saved. Click Search!";
+              document.getElementById("s-query").placeholder =
+                "Voice recorded — click Search with AI";
+              stream.getTracks().forEach((t) => t.stop());
+            };
+            mediaRecorder.start();
+            isRecording = true;
+            document.getElementById("voice-ring").classList.add("recording");
+            document.getElementById("voice-status").textContent =
+              "Recording... Click again to stop";
+          } catch (e) {
+            document.getElementById("voice-status").textContent =
+              "Mic access denied. Use text fallback below.";
+          }
+        } else {
+          mediaRecorder.stop();
+          isRecording = false;
+          document.getElementById("voice-ring").classList.remove("recording");
+        }
+      }
+
+      function handleImg(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          uploadedImg = ev.target.result;
+          const drop = document.getElementById("img-drop");
+          drop.className = "img-drop has-image";
+          document.getElementById("img-preview-area").innerHTML =
+            `<img src="${uploadedImg}" /><div style="font-size:11px;color:var(--teal)">${file.name} — ready for analysis</div>`;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      async function doSearch() {
+        const query = V("s-query") || "";
+        const catalog =
+          V("s-catalog") ||
+          "SEO, PPC, Social Media Marketing, Content Creation, Email Marketing, Web Design";
+
+        if (searchMode === "image" && uploadedImg) {
+          const box = document.getElementById("s-out");
+          box.innerHTML =
+            '<span class="spin"></span>  Analyzing image with AI...';
+          box.className = "output-box loading";
+          try {
+            const base64 = uploadedImg.split(",")[1];
+            const mime = uploadedImg.split(";")[0].split(":")[1];
+            const resp = await fetch(API, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                model: "claude-sonnet-4-20250514",
+                max_tokens: 1000,
+                messages: [
+                  {
+                    role: "user",
+                    content: [
+                      {
+                        type: "image",
+                        source: {
+                          type: "base64",
+                          media_type: mime,
+                          data: base64,
+                        },
+                      },
+                      {
+                        type: "text",
+                        text: `Based on this image, identify what product/service the user might be looking for and recommend the best matches from this catalog: ${catalog}. Also provide: 1) What you see in the image, 2) Top 3 service recommendations with reasoning, 3) Suggested next steps.${query ? " Additional context: " + query : ""}`,
+                      },
+                    ],
+                  },
+                ],
+              }),
+            });
+            const data = await resp.json();
+            box.className = "output-box";
+            box.textContent = data.content[0].text;
+          } catch (e) {
+            document.getElementById("s-out").textContent =
+              "Error: " + e.message;
+          }
+          return;
+        }
+
+        const q =
+          query || (searchMode === "voice" ? "general marketing services" : "");
+        if (!q) {
+          alert("Please enter a search query.");
+          return;
+        }
+        await streamToBox(
+          "s-out",
+          `A customer is searching for: "${q}"
+
+Available services/products in catalog: ${catalog}
+
+Provide:
+1. SEARCH RESULTS — Top 3-5 best matching services with relevance score (out of 10)
+2. WHY EACH MATCHES — brief explanation per result
+3. BEST RECOMMENDATION — your top pick with full details
+4. RELATED SUGGESTIONS — 2 additional services they might also need
+5. NEXT STEPS — what action should they take
+
+Format clearly with headers and be specific.`,
+          "You are an intelligent product search engine for a digital marketing agency. Match customer queries to services intelligently.",
+        );
+      }
+
+      function V(id) {
+        return (document.getElementById(id) || {}).value || "";
+      }
+
+      render(0);
+    </script>
+  </body>
+</html>
